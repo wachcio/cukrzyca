@@ -16,7 +16,9 @@ router.get("/:id", function(req, res, next) {
 
    if (!_.isNumber(Number(id))) res.json(badParameters("ID is not correct"));
 
-   var query = "SELECT * FROM `users` WHERE `ID`=" + id;
+   var query =
+      "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users` WHERE `ID`=" +
+      id;
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
 
@@ -32,9 +34,25 @@ router.get("/:id", function(req, res, next) {
    });
    connection.connect();
    connection.query(query, function(err, rows, fields) {
-      if (err) throw err;
+      // if (err == "ER_DUP_ENTRY") res.json(badParameters("Duplicate key"));
+      if (err) {
+         // console.log(err);
+         res.json(badParameters(err.code));
+         next(err);
+      }
+      // console.log(_.isEmpty(rows));
+      // if (_.isEmpty(rows)) badParameters(`User ID ${id} not exist`);
+      // console.log("rows", rows[0] == undefined);
+      // console.log(rows[0]);
 
-      res.json(rows);
+      rows[0] == undefined
+         ? res.json(badParameters(`User ID:${id} not exist`))
+         : res.json(rows);
+      // if (!_.isEmpty(rows)) {
+      // res.json(rows);
+      // } else {
+      //    badParameters(`User ID ${id} not exist`);
+      // }
    });
    connection.end();
 });

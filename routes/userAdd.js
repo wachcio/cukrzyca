@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = require("mysql");
 var _ = require("lodash");
 var moment = require("moment");
+var sha256 = require("sha256");
 
 const checkParameters = par => {
    var parOk = false;
@@ -11,9 +12,11 @@ const checkParameters = par => {
    if (
       !!par.first_name &&
       !!par.last_name &&
+      !!par.password &&
       // !_.trim(par.date_of_birth_child) &&
       _.isString(par.first_name) &&
       _.isString(par.last_name) &&
+      _.isString(par.password) &&
       moment(par.date_of_birth_child, "YYYY-MM-DD", true).isValid()
    ) {
       parOk = true;
@@ -40,18 +43,21 @@ router.post("/", function(req, res, next) {
    // let id = req.query.ID;
    let first_name = _.trim(req.query.first_name);
    let last_name = _.trim(req.query.last_name);
+   let password = req.query.password;
    let name = req.query.first_name + " " + req.query.last_name;
    let date_of_birth_child = req.query.date_of_birth_child;
    // let date_added = req.query.date_added;
 
    // var query = "SELECT * FROM `users`";
    var query =
-      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
+      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `password`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
       first_name +
       "', '" +
       last_name +
       "', '" +
       name +
+      "', '" +
+      sha256(password) +
       "', '" +
       date_of_birth_child +
       "', CURRENT_TIMESTAMP);";
@@ -68,7 +74,14 @@ router.post("/", function(req, res, next) {
 
    // console.log(checkParameters(req.query));
 
-   if (checkParameters({ first_name, last_name, date_of_birth_child }) == false)
+   if (
+      checkParameters({
+         first_name,
+         last_name,
+         password,
+         date_of_birth_child
+      }) == false
+   )
       return res.json(badParameters("Bad parameters"));
 
    connection.connect();

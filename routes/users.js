@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var mysql = require("mysql");
 var _ = require("lodash");
+var sha256 = require("sha256");
 
 router.get("/", function(req, res, next) {
    //  res.charset = "latin2";
@@ -11,7 +12,8 @@ router.get("/", function(req, res, next) {
    let date_of_birth_child = req.query.date_of_birth_child;
    let date_added = req.query.date_added;
 
-   var query = "SELECT * FROM `users`";
+   var query =
+      "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
 
@@ -28,6 +30,7 @@ router.get("/", function(req, res, next) {
    connection.connect();
    connection.query(query, function(err, rows, fields) {
       if (err) throw err;
+      // console.log(rows[0].password == sha256("123"));
 
       res.json(rows);
    });
