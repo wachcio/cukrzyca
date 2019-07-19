@@ -45,7 +45,7 @@ router.get("/:userId", function(req, res, next) {
       // console.log(rows[0]);
 
       rows[0] == undefined
-         ? res.json(badParameters(`User ID:${id} not exist`))
+         ? res.json(badParameters(`User ID:${userId} not exist`))
          : res.json(rows);
       // if (!_.isEmpty(rows)) {
       // res.json(rows);
