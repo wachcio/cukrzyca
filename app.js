@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+process.env.DB_HOST ? process.env.DB_HOST : require("./config");
 var app = require("./start");
 var debug = require("debug")("test1:server");
 var http = require("http");
