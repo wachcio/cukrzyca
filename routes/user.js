@@ -22,11 +22,12 @@ const weekOfPregnancy = (date, dateFrom = new Date().getTime()) => {
    return Math.floor(40 - weeks);
 };
 
-router.get("/:id/:report?", function(req, res, next) {
+router.get("/:id/:report?/:date?", function(req, res, next) {
    // console.log("id", req.params.id);
 
    let id = req.params.id;
    let report = req.params.report;
+   let date = req.params.date;
 
    if (!_.isNumber(Number(id))) res.json(badParameters("ID is not correct"));
 
@@ -71,8 +72,16 @@ router.get("/:id/:report?", function(req, res, next) {
          const file = "./helpers/data.json";
          const jsonfile = require("jsonfile");
          data.name = rows[0].name;
-
-         data.week_of_pregnancy = weekOfPregnancy(rows[0].date_of_birth_child);
+         if (moment(date, "YYYY-MM-DD").isValid) {
+            data.week_of_pregnancy = weekOfPregnancy(
+               rows[0].date_of_birth_child,
+               date
+            );
+         } else {
+            data.week_of_pregnancy = weekOfPregnancy(
+               rows[0].date_of_birth_child
+            );
+         }
 
          jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
             if (err) console.error(err);
