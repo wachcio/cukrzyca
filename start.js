@@ -39,6 +39,9 @@ app.use("/user", userRouter);
 app.use("/userAdd", userAddRouter);
 app.use("/measurementAdd", measurementAddRouter);
 app.use("/measurementsUser", measurementsUser);
+app.use("/report", function(req, res, next) {
+   res.render("report");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
