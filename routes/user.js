@@ -10,15 +10,14 @@ const badParameters = err => {
    };
 };
 
-const weekOfPregnancy = date => {
-   let today = new Date().getTime();
+const weekOfPregnancy = (date, dateFrom = new Date().getTime()) => {
+   if (dateFrom != new Date().getTime()) {
+      Date.parse(dateFrom);
+      dateFrom = new Date(dateFrom).getTime();
+   }
+
    date = new Date(date).getTime();
-   // console.log(date);
-   // console.log(today);
-
-   let weeks = (date - today) / (1000 * 60 * 60 * 24 * 7);
-
-   // console.log("weeks", Math.floor(40 - weeks));
+   let weeks = (date - dateFrom) / (1000 * 60 * 60 * 24 * 7);
 
    return Math.floor(40 - weeks);
 };
@@ -75,11 +74,11 @@ router.get("/:id/:report?", function(req, res, next) {
 
          data.week_of_pregnancy = weekOfPregnancy(rows[0].date_of_birth_child);
 
-         jsonfile.writeFile(file, data, { spaces: 2 }, function(err) {
+         jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
             if (err) console.error(err);
 
-            res.redirect("/report");
-            // res.json(data);
+            // res.redirect("/report");
+            res.json(data);
          });
       });
    }

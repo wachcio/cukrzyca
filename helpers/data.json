@@ -1,31 +1,28 @@
 {
-  "days": [
-    {
-      "day": "poniedziałek"
-    },
-    {
-      "day": "wtorek"
-    },
-    {
-      "day": "środa"
-    },
-    {
-      "day": "czwartek"
-    },
-    {
-      "day": "piątek"
-    },
-    {
-      "day": "sobota"
-    },
-    {
-      "day": "niedziela"
-    }
-  ],
-  "result": {
-    "h19y6": 124,
-    "h21y1": 145
-  },
-  "name": "Urszula Wachcińska",
-  "week_of_pregnancy": 10
+   "days": [
+      {
+         "day": "poniedziałek"
+      },
+      {
+         "day": "wtorek"
+      },
+      {
+         "day": "środa"
+      },
+      {
+         "day": "czwartek"
+      },
+      {
+         "day": "piątek"
+      },
+      {
+         "day": "sobota"
+      },
+      {
+         "day": "niedziela"
+      }
+   ],
+   "result": {},
+   "name": "Ala Kowalska",
+   "week_of_pregnancy": 15
 }
