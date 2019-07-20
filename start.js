@@ -10,7 +10,8 @@ var usersRouter = require("./routes/users");
 var userRouter = require("./routes/user");
 var userAddRouter = require("./routes/userAdd");
 var measurementAddRouter = require("./routes/measurementAdd");
-var measurementsUser = require("./routes/measurementsUser");
+var measurementsUserRouter = require("./routes/measurementsUser");
+var reportRouter = require("./routes/report");
 
 var app = express();
 
@@ -38,10 +39,8 @@ app.use("/users", usersRouter);
 app.use("/user", userRouter);
 app.use("/userAdd", userAddRouter);
 app.use("/measurementAdd", measurementAddRouter);
-app.use("/measurementsUser", measurementsUser);
-app.use("/report", function(req, res, next) {
-   res.render("report");
-});
+app.use("/measurementsUser", measurementsUserRouter);
+app.use("/report", reportRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
