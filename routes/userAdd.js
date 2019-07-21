@@ -39,28 +39,40 @@ const badParameters = err => {
    };
 };
 
+router.all("*", (req, res, next) => {
+   if (!req.session.admin) {
+      res.redirect("login");
+      return;
+   }
+   next();
+});
+
 router.post("/", function(req, res, next) {
    // let id = req.query.ID;
    let first_name = _.trim(req.query.first_name);
    let last_name = _.trim(req.query.last_name);
    let password = req.query.password;
+   let login = req.query.login;
    let name = req.query.first_name + " " + req.query.last_name;
    let date_of_birth_child = req.query.date_of_birth_child;
    // let date_added = req.query.date_added;
 
    // var query = "SELECT * FROM `users`";
    var query =
-      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `password`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
+      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `login`, `password`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
       first_name +
       "', '" +
       last_name +
       "', '" +
       name +
       "', '" +
+      login +
+      "', '" +
       sha256(password) +
       "', '" +
       date_of_birth_child +
       "', CURRENT_TIMESTAMP);";
+   console.log(query);
 
    var connection = mysql.createConnection({
       host: process.env.DB_HOST,
