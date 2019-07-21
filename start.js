@@ -13,6 +13,7 @@ var measurementAddRouter = require("./routes/measurementAdd");
 var measurementsUserRouter = require("./routes/measurementsUser");
 var measurementsAVGUserRouter = require("./routes/measurementsAVGUser");
 var reportRouter = require("./routes/report");
+var reportGeneratorRouter = require("./routes/reportGenerator");
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use("/measurementAdd", measurementAddRouter);
 app.use("/measurementsUser", measurementsUserRouter);
 app.use("/measurementsAVGUser", measurementsAVGUserRouter);
 app.use("/report", reportRouter);
+app.use("/reportGenerator", reportGeneratorRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
