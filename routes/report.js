@@ -1,9 +1,11 @@
 // var path = require("path");
-var data = require("../helpers/data.json");
-const jsonfile = require("jsonfile");
-const file = "./helpers/data.json";
+// var data = require("../helpers/data.json");
+// const jsonfile = require("jsonfile");
+// const file = "./helpers/data.json";
 var express = require("express");
 var router = express.Router();
+
+var data = global.appData;
 
 /* GET home page. */
 router.get("/", function(req, res, next) {

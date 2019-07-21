@@ -7,7 +7,7 @@ var sha256 = require("sha256");
 
 const checkParameters = par => {
    var parOk = false;
-   console.log(par);
+   // console.log(par);
 
    if (
       !!par.first_name &&

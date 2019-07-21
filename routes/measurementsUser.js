@@ -2,9 +2,9 @@ var express = require("express");
 var router = express.Router();
 var mysql = require("mysql");
 var _ = require("lodash");
-var data = require("../helpers/data.json");
-const file = "./helpers/data.json";
-const jsonfile = require("jsonfile");
+// var data = require("../helpers/data.json");
+// const file = "./helpers/data.json";
+// const jsonfile = require("jsonfile");
 
 const moment = require("moment");
 
@@ -17,7 +17,7 @@ const badParameters = err => {
 const writeDaysOfWeek = date => {
    let daysOfweek = [];
    moment.locale("pl");
-   console.log(moment(date).format("dddd"));
+   // console.log(moment(date).format("dddd"));
 
    for (let i = 0; i < 7; i++) {
       daysOfweek.push({ day: moment(date).format("dddd") });
@@ -45,9 +45,9 @@ const writeResult = (rows, userId, dateFrom) => {
          }
       }
    }
-   console.log("rows", rows[7]);
+   // console.log("rows", rows[7]);
 
-   console.log(result);
+   // console.log(result);
    return result;
 };
 
@@ -80,7 +80,7 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
          dateTmp = moment(dateTmp).add(1, "d");
       }
 
-      console.log(query);
+      // console.log(query);
    }
 
    var connection = mysql.createConnection({
@@ -105,16 +105,16 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
             : res.json(rows);
       } else {
          if (moment(dateFrom, "YYYY-MM-DD").isValid) {
-            data.days = writeDaysOfWeek(dateFrom);
-            delete data.result;
-            data.result = writeResult(rows, userId, dateFrom);
+            global.appData.days = writeDaysOfWeek(dateFrom);
+            delete global.appData.result;
+            global.appData.result = writeResult(rows, userId, dateFrom);
 
-            jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
-               if (err) console.error(err);
+            // jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
+            //    if (err) console.error(err);
 
-               res.redirect(`/user/${userId}/report/${dateFrom}`);
-               // res.json(data);
-            });
+            res.redirect(`/user/${userId}/report/${dateFrom}`);
+            // res.json(data);
+            // });
          }
       }
    });

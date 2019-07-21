@@ -68,27 +68,27 @@ router.get("/:id/:report?/:date?", function(req, res, next) {
          //    ? res.json(badParameters(`User ID:${id} not exist`))
          //    : res.json(rows);
 
-         var data = require("../helpers/data.json");
-         const file = "./helpers/data.json";
-         const jsonfile = require("jsonfile");
-         data.name = rows[0].name;
+         // var data = require("../helpers/data.json");
+         // const file = "./helpers/data.json";
+         // const jsonfile = require("jsonfile");
+         global.appData.name = rows[0].name;
          if (moment(date, "YYYY-MM-DD").isValid) {
-            data.week_of_pregnancy = weekOfPregnancy(
+            global.appData.week_of_pregnancy = weekOfPregnancy(
                rows[0].date_of_birth_child,
                date
             );
          } else {
-            data.week_of_pregnancy = weekOfPregnancy(
+            global.appData.week_of_pregnancy = weekOfPregnancy(
                rows[0].date_of_birth_child
             );
          }
 
-         jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
-            if (err) console.error(err);
+         // jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
+         //    if (err) console.error(err);
 
-            res.redirect("/report");
-            // res.json(data);
-         });
+         res.redirect("/report");
+         // res.json(data);
+         // });
       });
    }
    connection.end();

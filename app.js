@@ -3,6 +3,9 @@
 /**
  * Module dependencies.
  */
+
+global.appData = require("./helpers/data.json");
+
 process.env.DB_HOST ? process.env.DB_HOST : require("./config");
 var app = require("./start");
 var debug = require("debug")("test1:server");

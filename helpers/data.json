@@ -1,57 +1,6 @@
 {
-   "days": [
-      {
-         "day": "niedziela"
-      },
-      {
-         "day": "poniedziałek"
-      },
-      {
-         "day": "wtorek"
-      },
-      {
-         "day": "środa"
-      },
-      {
-         "day": "czwartek"
-      },
-      {
-         "day": "piątek"
-      },
-      {
-         "day": "sobota"
-      }
-   ],
-   "name": "Urszula Wachcińska",
-   "week_of_pregnancy": 9,
-   "result": {
-      "h19y1": 103,
-      "h9y1": 113,
-      "h9y2": 8,
-      "h10y3": 114,
-      "h16y3": 114,
-      "h16y4": 10,
-      "h15y5": 123,
-      "h7y5": 123,
-      "h17y7": 120,
-      "h17y8": 55,
-      "h1y7": 110,
-      "h10y9": 117,
-      "h10y10": 44,
-      "h20y9": 114,
-      "h20y10": 88,
-      "h17y9": 119,
-      "h17y10": 44,
-      "h14y9": 127,
-      "h14y10": 444,
-      "h24y9": 32,
-      "h24y10": 4442,
-      "h10y11": 94,
-      "h18y11": 100,
-      "h8y13": 110,
-      "h8y14": 77,
-      "h13y13": 119,
-      "h17y13": 119,
-      "h17y14": 44
-   }
+   "days": [],
+   "name": "",
+   "week_of_pregnancy": 0,
+   "result": {}
 }
