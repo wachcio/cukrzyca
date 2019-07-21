@@ -15,7 +15,7 @@ const checkParameters = par => {
       _.isNumber(Number(par.sugar_level)) &&
       _.isNumber(Number(par.hour_of_measurement)) &&
       Number(par.hour_of_measurement) >= 0 &&
-      Number(par.hour_of_measurement) <= 23 &&
+      Number(par.hour_of_measurement) <= 24 &&
       moment(par.date_of_measurement, "YYYY-MM-DD", true).isValid()
    ) {
       parOk = true;

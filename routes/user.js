@@ -86,8 +86,8 @@ router.get("/:id/:report?/:date?", function(req, res, next) {
          jsonfile.writeFile(file, data, { spaces: 3 }, function(err) {
             if (err) console.error(err);
 
-            // res.redirect("/report");
-            res.json(data);
+            res.redirect("/report");
+            // res.json(data);
          });
       });
    }
