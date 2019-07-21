@@ -11,6 +11,7 @@ var userRouter = require("./routes/user");
 var userAddRouter = require("./routes/userAdd");
 var measurementAddRouter = require("./routes/measurementAdd");
 var measurementsUserRouter = require("./routes/measurementsUser");
+var measurementsAVGUserRouter = require("./routes/measurementsAVGUser");
 var reportRouter = require("./routes/report");
 
 var app = express();
@@ -40,6 +41,7 @@ app.use("/user", userRouter);
 app.use("/userAdd", userAddRouter);
 app.use("/measurementAdd", measurementAddRouter);
 app.use("/measurementsUser", measurementsUserRouter);
+app.use("/measurementsAVGUser", measurementsAVGUserRouter);
 app.use("/report", reportRouter);
 
 // catch 404 and forward to error handler
