@@ -38,14 +38,15 @@ var mysql = require("mysql");
 // };
 
 /* GET home page. */
-router.get("/:error?", function(req, res, next) {
-   let err = "";
-   req.params.error ? (err = req.params.error) : (err = "");
+router.get("/", function(req, res, next) {
+   let err = global.app.error;
+   //  req.params.error ? (err = req.params.error) : (err = "");
    //  console.log("err", req.query);
 
    res.render("login", { title: "Logowanie", err });
 });
 router.post("/", function(req, res, next) {
+   global.app.error = "";
    if (req.params.error) {
       let err = "";
       req.params.error ? (err = req.params.error) : (err = "");
@@ -83,20 +84,23 @@ router.post("/", function(req, res, next) {
          next(err);
       } else if (rows[0] == undefined) {
          //  res.json({ error: "Incorrect login or password" });
-         const error = "Incorrect login or password";
+         //  const error = "Incorrect login or password";
          //  res.redirect("/login/" + error);
+         global.app.error = "Incorrect login or password";
+         global.app.loginUserName = "";
          res.redirect("/login/");
          return;
       } else if (rows[0].is_admin == 1) {
          //  console.log("admin", rows[0].is_admin);
 
          req.session.admin = 1;
-
+         global.app.loginUserName = rows[0].name;
          res.redirect("/admin");
          return;
       }
       // console.log("login", rows[0].login);
       req.session.user = 1;
+      global.app.loginUserName = rows[0].name;
       res.redirect("/userPanel");
       return;
    });

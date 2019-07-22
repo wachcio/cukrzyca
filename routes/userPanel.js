@@ -12,8 +12,8 @@ router.all("*", (req, res, next) => {
 /* GET home page. */
 router.get("/", function(req, res, next) {
    // console.log(req.session.admin);
-
-   res.render("userPanel", { title: "Panel użytkownika" });
+   let appData = global.app;
+   res.render("userPanel", { title: "Panel użytkownika", appData });
 });
 
 module.exports = router;

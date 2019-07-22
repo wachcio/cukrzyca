@@ -5,6 +5,10 @@
  */
 
 global.appData = require("./helpers/data.json");
+global.app = {
+   loginUserName: "",
+   err: ""
+};
 
 process.env.DB_HOST ? process.env.DB_HOST : require("./config");
 var app = require("./start");
