@@ -11,11 +11,15 @@ const badParameters = err => {
    };
 };
 
-router.get("/:userId/:dateFrom", function(req, res, next) {
+router.get("/", function(req, res, next) {
    // console.log("userId", req.params.userId);
 
-   let userId = req.params.userId;
-   let dateFrom = req.params.dateFrom;
+   console.log(res.body);
+
+   let userId = req.query.userId;
+   let dateFrom = req.query.dateFrom;
+   // let userId = req.params.userId;
+   // let dateFrom = req.params.dateFrom;
 
    if (!_.isNumber(Number(userId)))
       res.json(badParameters("user ID is not correct"));

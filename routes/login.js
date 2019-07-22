@@ -87,20 +87,28 @@ router.post("/", function(req, res, next) {
          //  const error = "Incorrect login or password";
          //  res.redirect("/login/" + error);
          global.app.error = "Incorrect login or password";
-         global.app.loginUserName = "";
-         res.redirect("/login/");
+         //  global.app.loginUserName = "";
+         req.session = null;
+         //  req.session.loginUserName = " ";
+         res.redirect("/login");
          return;
       } else if (rows[0].is_admin == 1) {
          //  console.log("admin", rows[0].is_admin);
 
          req.session.admin = 1;
-         global.app.loginUserName = rows[0].name;
+         req.session.loginUserName = rows[0].name;
+         req.session.login = rows[0].login;
+         req.session.ID = rows[0].ID;
+         //  global.app.loginUserName = rows[0].name;
          res.redirect("/admin");
          return;
       }
       // console.log("login", rows[0].login);
       req.session.user = 1;
-      global.app.loginUserName = rows[0].name;
+      req.session.loginUserName = rows[0].name;
+      req.session.login = rows[0].login;
+      req.session.ID = rows[0].ID;
+      // global.app.loginUserName = rows[0].name;
       res.redirect("/userPanel");
       return;
    });

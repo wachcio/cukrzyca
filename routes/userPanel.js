@@ -12,7 +12,7 @@ router.all("*", (req, res, next) => {
 /* GET home page. */
 router.get("/", function(req, res, next) {
    // console.log(req.session.admin);
-   let appData = global.app;
+   let appData = req.session;
    res.render("userPanel", { title: "Panel użytkownika", appData });
 });
 

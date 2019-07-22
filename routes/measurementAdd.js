@@ -40,11 +40,11 @@ const badParameters = err => {
 
 router.post("/", function(req, res, next) {
    // let id = req.query.ID;
-   let ID_user = _.trim(req.query.ID_user);
-   let sugar_level = _.trim(req.query.sugar_level);
-   let insulin_dose = req.query.insulin_dose;
-   let hour_of_measurement = req.query.hour_of_measurement;
-   let date_of_measurement = req.query.date_of_measurement;
+   let ID_user = _.trim(req.body.ID_user);
+   let sugar_level = _.trim(req.body.sugar_level);
+   let insulin_dose = req.body.insulin_dose;
+   let hour_of_measurement = req.body.hour_of_measurement;
+   let date_of_measurement = req.body.date_of_measurement;
    // let date_added = req.query.date_added;
 
    // var query = "SELECT * FROM `users`";

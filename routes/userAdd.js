@@ -49,13 +49,23 @@ router.all("*", (req, res, next) => {
 
 router.post("/", function(req, res, next) {
    // let id = req.query.ID;
-   let first_name = _.trim(req.query.first_name);
-   let last_name = _.trim(req.query.last_name);
-   let password = req.query.password;
-   let login = req.query.login;
-   let is_admin = req.query.is_admin;
-   let name = req.query.first_name + " " + req.query.last_name;
-   let date_of_birth_child = req.query.date_of_birth_child;
+   let first_name = _.trim(req.body.first_name);
+   let last_name = _.trim(req.body.last_name);
+   let password = String(req.body.password);
+   let login = req.body.login;
+   let is_admin = req.body.is_admin;
+   let name = req.body.first_name + " " + req.body.last_name;
+   let date_of_birth_child = req.body.date_of_birth_child;
+   console.log(req.body);
+   // let first_name = _.trim(req.query.first_name);
+   // let last_name = _.trim(req.query.last_name);
+   // let password = String(req.query.password);
+   // let login = req.query.login;
+   // let is_admin = req.query.is_admin;
+   // let name = req.query.first_name + " " + req.query.last_name;
+   // let date_of_birth_child = req.query.date_of_birth_child;
+   // console.log(req.query);
+
    // let date_added = req.query.date_added;
 
    // var query = "SELECT * FROM `users`";

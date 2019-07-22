@@ -1,8 +1,41 @@
 <h1>
   {{title}}
   -
-  {{appData.loginUserName}}
+  {{appData.login}}
 </h1>
-<p>
-  Panel użytkownika
-</p>
+<div class="wrapper-user-panel">
+  <div class="user-add-measurement">
+    <form action="/measurementAdd" method="post">
+      <input type="hidden" name="ID_user" value={{appData.ID}} />
+      <label for="sugar_level">
+        Poziom cukru
+      </label>
+      <input type="number" name="sugar_level" min="30" max="300" />
+      <label for="insulin_dose">
+        Dawka insuliny
+      </label>
+      <input type="number" name="insulin_dose" min="1" max="300" />
+      <label for="hour_of_measurement">
+        Godzina pomiaru
+      </label>
+      <input type="number" name="hour_of_measurement" min="1" max="24" />
+      <label for="date_of_measurement"></label>
+      <input type="date" name="date_of_measurement" />
+      <button type="submit">
+        Dodaj wyniki
+      </button>
+    </form>
+  </div>
+  <div class="user-report">
+    <form action="reportGenerator" method="GET">
+      <label for="dateFrom">
+        Data rozpoczęcia raportu
+      </label>
+      <input type="date" name="dateFrom" />
+      <input type="hidden" name="userId" value={{appData.ID}} />
+      <button type="submit">
+        Genereruj raport
+      </button>
+    </form>
+  </div>
+</div>

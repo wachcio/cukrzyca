@@ -20,7 +20,7 @@ const writeDaysOfWeek = date => {
    // console.log(moment(date).format("dddd"));
 
    for (let i = 0; i < 7; i++) {
-      daysOfweek.push({ day: moment(date).format("dddd") });
+      daysOfweek.push({ day: moment(date).format("dddd DD-MM") });
       date = moment(date).add(1, "d");
    }
    return daysOfweek;

@@ -12,7 +12,9 @@ router.all("*", (req, res, next) => {
 /* GET home page. */
 router.get("/", function(req, res, next) {
    console.log(req.session.admin);
-   let appData = global.app;
+   let appData = req.session;
+   console.log("user", appData);
+
    res.render("admin", { title: "Logowanie", appData });
 });
 
