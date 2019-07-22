@@ -18,6 +18,7 @@ var reportRouter = require("./routes/report");
 var reportGeneratorRouter = require("./routes/reportGenerator");
 var loginRouter = require("./routes/login");
 var adminRouter = require("./routes/admin");
+var userPanelRouter = require("./routes/userPanel");
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use("/report", reportRouter);
 app.use("/reportGenerator", reportGeneratorRouter);
 app.use("/login", loginRouter);
 app.use("/admin", adminRouter);
+app.use("/userPanel", userPanelRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

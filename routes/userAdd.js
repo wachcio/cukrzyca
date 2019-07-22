@@ -53,13 +53,14 @@ router.post("/", function(req, res, next) {
    let last_name = _.trim(req.query.last_name);
    let password = req.query.password;
    let login = req.query.login;
+   let is_admin = req.query.is_admin;
    let name = req.query.first_name + " " + req.query.last_name;
    let date_of_birth_child = req.query.date_of_birth_child;
    // let date_added = req.query.date_added;
 
    // var query = "SELECT * FROM `users`";
    var query =
-      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `login`, `password`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
+      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `login`, `password`, `is_admin`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
       first_name +
       "', '" +
       last_name +
@@ -69,6 +70,8 @@ router.post("/", function(req, res, next) {
       login +
       "', '" +
       sha256(password) +
+      "', '" +
+      is_admin +
       "', '" +
       date_of_birth_child +
       "', CURRENT_TIMESTAMP);";
