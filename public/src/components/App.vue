@@ -3,32 +3,19 @@
     <h2
       class="text-center"
     >Witam na stronie na której dodasz a później wydrukujesz raport tygodniowy z pomiarów cukru</h2>
-    <div class="container d-flex justify-content-center">
-      <form v-if="!login.online">
-        <div class="form-group">
-          <label for="login">Login</label>
-          <input type="text" class="form-control" id="login" name="login" v-model="login.login" />
-        </div>
-        <div class="form-group">
-          <label for="password">Hasło</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            v-model="login.password"
-          />
-        </div>
-
-        <button class="btn btn-primary" v-on:click.prevent="onSubmit">Wyślij</button>
-      </form>
+    <div>
+      <router-link :to="{ name: 'Dashboard'}">Dashboard</router-link>
+      <router-link :to="{ name: 'Login'}">Login</router-link>
+      <a href="#" v-on:click="logout">Logout</a>
     </div>
+    <router-view />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import bus from "./../bus.js";
+import router from "../router";
 
 import cookieSession from "cookie-session";
 
@@ -47,6 +34,11 @@ export default {
   },
   components: {},
   methods: {
+    logout: function(e) {
+      axios.get("/logout").then(() => {
+        router.push("/");
+      });
+    },
     onSubmit(e) {
       axios
         .post(this.login.urlLogin, {

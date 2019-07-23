@@ -1,5 +1,10 @@
 var createError = require("http-errors");
 var cookieSession = require("cookie-session");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+
+// getting the local authentication type
+const LocalStrategy = require("passport-local").Strategy;
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -17,6 +22,7 @@ var measurementsAVGUserRouter = require("./routes/measurementsAVGUser");
 var reportRouter = require("./routes/report");
 var reportGeneratorRouter = require("./routes/reportGenerator");
 var loginRouter = require("./routes/login");
+var logoutRouter = require("./routes/logout");
 var adminRouter = require("./routes/admin");
 var userPanelRouter = require("./routes/userPanel");
 
@@ -34,6 +40,8 @@ app.use(
       maxAge: process.env.MAX_AGE_SESSION
    })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -59,6 +67,7 @@ app.use("/measurementsAVGUser", measurementsAVGUserRouter);
 app.use("/report", reportRouter);
 app.use("/reportGenerator", reportGeneratorRouter);
 app.use("/login", loginRouter);
+app.use("/logout", loginRouter);
 app.use("/admin", adminRouter);
 app.use("/userPanel", userPanelRouter);
 
