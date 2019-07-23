@@ -46,10 +46,12 @@ router.get("/", function(req, res, next) {
    res.render("login", { title: "Logowanie", err });
 });
 router.post("/", function(req, res, next) {
+   console.log(req.body);
+
    global.app.error = "";
-   if (req.params.error) {
+   if (req.body.error) {
       let err = "";
-      req.params.error ? (err = req.params.error) : (err = "");
+      req.body.error ? (err = req.body.error) : (err = "");
       //  console.log("err", req.query);
 
       res.render("login", { title: "Logowanie", err });
@@ -86,11 +88,11 @@ router.post("/", function(req, res, next) {
          //  res.json({ error: "Incorrect login or password" });
          //  const error = "Incorrect login or password";
          //  res.redirect("/login/" + error);
-         global.app.error = "Incorrect login or password";
+         // global.app.error = "Incorrect login or password";
          //  global.app.loginUserName = "";
          req.session = null;
          //  req.session.loginUserName = " ";
-         res.redirect("/login");
+         res.redirect("/");
          return;
       } else if (rows[0].is_admin == 1) {
          //  console.log("admin", rows[0].is_admin);
@@ -100,7 +102,8 @@ router.post("/", function(req, res, next) {
          req.session.login = rows[0].login;
          req.session.ID = rows[0].ID;
          //  global.app.loginUserName = rows[0].name;
-         res.redirect("/admin");
+         // res.redirect("/admin");
+         res.json(req.session);
          return;
       }
       // console.log("login", rows[0].login);
@@ -109,7 +112,8 @@ router.post("/", function(req, res, next) {
       req.session.login = rows[0].login;
       req.session.ID = rows[0].ID;
       // global.app.loginUserName = rows[0].name;
-      res.redirect("/userPanel");
+      // res.redirect("/userPanel");
+      res.json(req.session);
       return;
    });
    connection.end();
