@@ -67,7 +67,7 @@ app.use("/measurementsAVGUser", measurementsAVGUserRouter);
 app.use("/report", reportRouter);
 app.use("/reportGenerator", reportGeneratorRouter);
 app.use("/login", loginRouter);
-app.use("/logout", loginRouter);
+app.use("/logout", logoutRouter);
 app.use("/admin", adminRouter);
 app.use("/userPanel", userPanelRouter);
 

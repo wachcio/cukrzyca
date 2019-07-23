@@ -9,8 +9,9 @@ const passport = require("passport");
 // getting the local authentication type
 const LocalStrategy = require("passport-local").Strategy;
 router.get("/", function(req, res) {
-   req.logout();
    console.log("logged out");
+   req.logout();
+
    return res.send();
 });
 
