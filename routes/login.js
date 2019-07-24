@@ -3,20 +3,24 @@ var router = express.Router();
 var sha256 = require("sha256");
 var mysql = require("mysql");
 const passport = require("passport");
-let users = [
-   {
-      id: 1,
-      name: "wachcio",
-      email: "wachcio",
-      password: "123"
-   },
-   {
-      id: 2,
-      name: "Emma",
-      email: "emma@email.com",
-      password: "password2"
-   }
-];
+const bodyParser = require("body-parser");
+
+// getting the local authentication type
+const LocalStrategy = require("passport-local").Strategy;
+// let users = [
+//    {
+//       id: 1,
+//       name: "wachcio",
+//       email: "wachcio",
+//       password: "123"
+//    },
+//    {
+//       id: 2,
+//       name: "Emma",
+//       email: "emma@email.com",
+//       password: "password2"
+//    }
+// ];
 
 // const checkLoginPassword = (login, password) => {
 //    var query =
@@ -25,7 +29,7 @@ let users = [
 //       "' AND `password`='" +
 //       sha256(password) +
 //       "'";
-//    console.log(query);
+//    // console.log(query);
 
 //    var connection = mysql.createConnection({
 //       host: process.env.DB_HOST,
@@ -53,15 +57,58 @@ let users = [
 // };
 
 /* GET home page. */
-router.get("/", function(req, res, next) {
-   let err = global.app.error;
-   //  req.params.error ? (err = req.params.error) : (err = "");
-   //  console.log("err", req.query);
+// router.get("/", function(req, res, next) {
+//    let err = global.app.error;
+//  req.params.error ? (err = req.params.error) : (err = "");
+//  console.log("err", req.query);
 
-   res.render("login", { title: "Logowanie", err });
+// res.render("login", { title: "Logowanie", err });
+// });
+
+passport.use(
+   new LocalStrategy(
+      {
+         usernameField: "login",
+         passwordField: "password"
+      },
+      (username, password, done) => {
+         let user = global.app.users.find(user => {
+            // console.log("login1", user.login);
+            // console.log("login1", username);
+
+            // console.log("login2", user.password);
+            // console.log("login2", sha256(password));
+
+            return (
+               user.login === username && user.password === sha256(password)
+            );
+         });
+
+         if (user) {
+            done(null, user);
+         } else {
+            done(null, false, { message: "Incorrect username or password" });
+         }
+      }
+   )
+);
+
+passport.serializeUser((user, done) => {
+   done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+   let user = global.app.users.find(user => {
+      return user.id === id;
+   });
+
+   done(null, user);
 });
 router.post("/", (req, res, next) => {
+   console.log("req", req.body);
+
    passport.authenticate("local", (err, user, info) => {
+      // user = true;
       if (err) {
          return next(err);
       }
@@ -76,78 +123,5 @@ router.post("/", (req, res, next) => {
    })(req, res, next);
 });
 
-// router.post("/", function(req, res, next) {
-//    console.log(req.body);
-
-//    global.app.error = "";
-//    if (req.body.error) {
-//       let err = "";
-//       req.body.error ? (err = req.body.error) : (err = "");
-//       //  console.log("err", req.query);
-
-//       res.render("login", { title: "Logowanie", err });
-//    }
-
-//    const body = req.body;
-//    var query =
-//       "SELECT `ID`, `login`, `password`, `is_admin`, `name` FROM `users` WHERE `login`='" +
-//       body.login +
-//       "' AND `password`='" +
-//       sha256(body.password) +
-//       "'";
-//    console.log(query);
-
-//    var connection = mysql.createConnection({
-//       host: process.env.DB_HOST,
-//       user: process.env.DB_USER,
-//       password: process.env.DB_PASSWORD,
-//       database: process.env.DB_NAME,
-//       timezone: process.env.TZ,
-//       multipleStatements: true,
-//       charset: "utf8_general_ci"
-//       // debug: true
-//    });
-//    connection.connect();
-
-//    connection.query(query, function(err, rows, fields) {
-//       console.log(rows[0]);
-
-//       if (err) {
-//          res.json(err);
-//          next(err);
-//       } else if (rows[0] == undefined) {
-//          //  res.json({ error: "Incorrect login or password" });
-//          //  const error = "Incorrect login or password";
-//          //  res.redirect("/login/" + error);
-//          // global.app.error = "Incorrect login or password";
-//          //  global.app.loginUserName = "";
-//          req.session = null;
-//          //  req.session.loginUserName = " ";
-//          res.redirect("/");
-//          return;
-//       } else if (rows[0].is_admin == 1) {
-//          //  console.log("admin", rows[0].is_admin);
-
-//          req.session.admin = 1;
-//          req.session.loginUserName = rows[0].name;
-//          req.session.login = rows[0].login;
-//          req.session.ID = rows[0].ID;
-//          //  global.app.loginUserName = rows[0].name;
-//          // res.redirect("/admin");
-//          res.json(req.session);
-//          return;
-//       }
-//       // console.log("login", rows[0].login);
-//       req.session.user = 1;
-//       req.session.loginUserName = rows[0].name;
-//       req.session.login = rows[0].login;
-//       req.session.ID = rows[0].ID;
-//       // global.app.loginUserName = rows[0].name;
-//       // res.redirect("/userPanel");
-//       res.json(req.session);
-//       return;
-//    });
-//    connection.end();
-// });
-
+//
 module.exports = router;

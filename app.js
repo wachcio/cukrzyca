@@ -7,8 +7,10 @@
 global.appData = require("./helpers/data.json");
 global.app = {
    loginUserName: "",
-   err: ""
+   err: "",
+   users: []
 };
+global.appUsers = [];
 
 process.env.DB_HOST ? process.env.DB_HOST : require("./config");
 var app = require("./start");

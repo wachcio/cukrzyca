@@ -3,7 +3,7 @@
     <form v-on:submit="login">
       <div class="form-group">
         <label for="login">Login</label>
-        <input type="text" class="form-control" id="login" name="email" v-model="login.login" />
+        <input type="text" class="form-control" id="login" name="login" v-model="login.login" />
       </div>
       <div class="form-group">
         <label for="password">Hasło</label>
@@ -34,11 +34,11 @@ export default {
   methods: {
     login: e => {
       e.preventDefault();
-      let email = e.target.elements.email.value;
+      let login2 = e.target.elements.login.value;
       let password = e.target.elements.password.value;
       let login = () => {
         let data = {
-          email: email,
+          login: login2,
           password: password
         };
         axios

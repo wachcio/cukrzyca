@@ -24927,11 +24927,11 @@ __WEBPACK_IMPORTED_MODULE_0__vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue
   methods: {
     login: e => {
       e.preventDefault();
-      let email = e.target.elements.email.value;
+      let login2 = e.target.elements.login.value;
       let password = e.target.elements.password.value;
       let login = () => {
         let data = {
-          email: email,
+          login: login2,
           password: password
         };
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post("/login", data).then(response => {
@@ -24974,7 +24974,7 @@ __WEBPACK_IMPORTED_MODULE_0__vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue
   data() {
     return {
       user: {
-        name: "Jesse"
+        name: ""
       }
     };
   },
@@ -41105,7 +41105,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { type: "text", id: "login", name: "email" },
+          attrs: { type: "text", id: "login", name: "login" },
           domProps: { value: _vm.login.login },
           on: {
             input: function($event) {

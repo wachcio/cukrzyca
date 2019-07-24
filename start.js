@@ -8,6 +8,7 @@ const LocalStrategy = require("passport-local").Strategy;
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+const mysql = require("mysql");
 
 var logger = require("morgan");
 var sassMiddleware = require("node-sass-middleware");
@@ -70,6 +71,38 @@ app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/admin", adminRouter);
 app.use("/userPanel", userPanelRouter);
+
+const getUsers = () => {
+   var query = "SELECT * FROM `users`";
+   // var query =
+   //    "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
+   //  var query =
+   // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
+
+   var connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      timezone: process.env.TZ,
+      multipleStatements: true,
+      charset: "utf8_general_ci"
+      // debug: true
+   });
+   connection.connect();
+   connection.query(query, function(err, rows, fields) {
+      if (err) throw err;
+      // console.log(rows[0].password == sha256("123"));
+      global.app.users = Array.from(rows);
+      global.appUsers = Array.from(rows);
+
+      // return rows;
+   });
+   connection.end();
+};
+getUsers();
+// global.app.users = getUsers();
+// console.log(global.app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
