@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     urlReport: function() {
-      console.log(this.user);
+      //   console.log(this.user);
 
       //   return `/reportGenerator/${this.user.ID}/2019-07-15`;
       return `/measurementsAVGUser/${this.user.ID}/report/2019-07-14`;

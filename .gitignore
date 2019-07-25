@@ -1,5 +1,5 @@
 .env*
-*bundle.js
+public/build
 # Logs
 logs
 *.log
