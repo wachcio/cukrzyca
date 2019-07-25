@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h2>Dashboard</h2>
+    <h2>Panel użytkownika</h2>
     <p>Name: {{ user.name }}</p>
+
+    <a :href="urlReport">{{urlReport}}</a>
   </div>
 </template>
 
@@ -32,6 +34,15 @@ export default {
         });
     }
   },
+  computed: {
+    urlReport: function() {
+      console.log(this.user);
+
+      //   return `/reportGenerator/${this.user.ID}/2019-07-15`;
+      return `/measurementsAVGUser/${this.user.ID}/report/2019-07-14`;
+    }
+  },
+
   mounted() {
     this.getUserData();
   }

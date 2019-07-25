@@ -24966,6 +24966,8 @@ __WEBPACK_IMPORTED_MODULE_0__vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue
 //
 //
 //
+//
+//
 
 
 
@@ -24990,6 +24992,15 @@ __WEBPACK_IMPORTED_MODULE_0__vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue
       });
     }
   },
+  computed: {
+    urlReport: function () {
+      console.log(this.user);
+
+      //   return `/reportGenerator/${this.user.ID}/2019-07-15`;
+      return `/measurementsAVGUser/${this.user.ID}/report/2019-07-14`;
+    }
+  },
+
   mounted() {
     this.getUserData();
   }
@@ -41224,9 +41235,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", [_vm._v("Dashboard")]),
+    _c("h2", [_vm._v("Panel użytkownika")]),
     _vm._v(" "),
-    _c("p", [_vm._v("Name: " + _vm._s(_vm.user.name))])
+    _c("p", [_vm._v("Name: " + _vm._s(_vm.user.name))]),
+    _vm._v(" "),
+    _c("a", { attrs: { href: _vm.urlReport } }, [_vm._v(_vm._s(_vm.urlReport))])
   ])
 }
 var staticRenderFns = []
