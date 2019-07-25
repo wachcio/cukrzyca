@@ -53,8 +53,6 @@ const getUsers = () => {
 
 const authMiddleware = (req, res, next) => {
    if (!req.isAuthenticated()) {
-      console.log(req.isAuthenticated());
-
       res.status(401).send("You are not authenticated");
    } else {
       return next();
@@ -80,39 +78,13 @@ const weekOfPregnancy = (date, dateFrom = new Date().getTime()) => {
 };
 
 router.get("/", authMiddleware, function(req, res, next) {
-   // var query =
-   //    "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
-   // //  var query =
-   // // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
-
-   // var connection = mysql.createConnection({
-   //    host: process.env.DB_HOST,
-   //    user: process.env.DB_USER,
-   //    password: process.env.DB_PASSWORD,
-   //    database: process.env.DB_NAME,
-   //    timezone: process.env.TZ,
-   //    multipleStatements: true,
-   //    charset: "utf8_general_ci"
-   //    // debug: true
-   // });
-   // connection.connect();
-   // connection.query(query, function(err, rows, fields) {
-   //    if (err) throw err;
-   //    // console.log(rows[0].password == sha256("123"));
-
-   //    // users = rows;
-   // let users = global.app.users;
-   // console.log("users", users);
-
    let user = global.app.users.find(user => {
-      console.log(req.session);
+      // console.log(req.session.passport.user);
 
       return user.ID === req.session.passport.user;
    });
-   console.log([user, req.session]);
+   // console.log([user, req.session]);
    res.send({ user: user });
-   // });
-   // connection.end();
 });
 
 router.get("/:id/:report?/:date?", function(req, res, next) {
