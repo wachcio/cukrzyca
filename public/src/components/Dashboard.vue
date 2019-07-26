@@ -2,8 +2,8 @@
   <div>
     <h2>Panel użytkownika {{ user.name }}</h2>
 
-    <a :href="urlReport" target="_blanc">Generuj raport z dnia</a>
-    <input type="date" name="date" v-model="dateFrom" />
+    <a :href="urlReport" target="_blanc">Generuj tygodniowy raport od dnia</a>
+    <datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></datepicker>
   </div>
 </template>
 
@@ -11,6 +11,7 @@
 import axios from "axios";
 import router from "../router";
 import moment from "moment";
+import Datepicker from "vue2-datepicker";
 export default {
   name: "Dashboard",
   data() {
@@ -18,8 +19,11 @@ export default {
       user: {
         name: ""
       },
-      dateFrom: moment().format("DD-MM-YYYY")
+      dateFrom: ""
     };
+  },
+  components: {
+    Datepicker
   },
   methods: {
     getUserData: function() {
@@ -34,6 +38,10 @@ export default {
           console.log(errors);
           router.push("/");
         });
+    },
+    customFormat: function(date) {
+      return moment(date).format("YYYY-MM-DD");
+      //   return "DD-MM-YYYY";
     }
   },
   computed: {
@@ -55,7 +63,9 @@ export default {
   mounted() {
     this.getUserData();
     // let date = new Date();
-    // this.dateFrom = moment().format("DD-MM-YYYY");
+    this.dateFrom = moment()
+      .subtract(7, "days")
+      .format("YYYY-MM-DD");
   }
 };
 </script>

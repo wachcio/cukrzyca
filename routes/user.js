@@ -78,6 +78,7 @@ const weekOfPregnancy = (date, dateFrom = new Date().getTime()) => {
 };
 
 router.get("/", authMiddleware, function(req, res, next) {
+   // router.get("/", function(req, res, next) {
    let user = global.app.users.find(user => {
       // console.log(req.session.passport.user);
 

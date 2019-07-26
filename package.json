@@ -31,7 +31,9 @@
       "vue-axios": "^2.1.4",
       "vue-cookies": "^1.5.13",
       "vue-router": "^3.0.7",
-      "vue-session": "^1.0.0"
+      "vue-session": "^1.0.0",
+      "vue2-datepicker": "^2.12.0",
+      "vuejs-datepicker": "^1.6.2"
    },
    "devDependencies": {
       "prettier": "^1.9.2",
