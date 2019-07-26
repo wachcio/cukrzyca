@@ -4,7 +4,7 @@
       class="text-center"
     >Witam na stronie na której dodasz a później wydrukujesz raport tygodniowy z pomiarów cukru</h2>
     <div>
-      <router-link :to="{ name: 'Dashboard'}">Dashboard</router-link>
+      <router-link :to="{ name: 'Dashboard'}">Panel użytkownika</router-link>
       <router-link :to="{ name: 'Login'}">Login</router-link>
       <a href="#" v-on:click="logout">Logout</a>
     </div>

@@ -1,22 +1,24 @@
 <template>
   <div>
-    <h2>Panel użytkownika</h2>
-    <p>Name: {{ user.name }}</p>
+    <h2>Panel użytkownika {{ user.name }}</h2>
 
-    <a :href="urlReport">{{urlReport}}</a>
+    <a :href="urlReport" target="_blanc">Generuj raport z dnia</a>
+    <input type="date" name="date" v-model="dateFrom" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import router from "../router";
+import moment from "moment";
 export default {
   name: "Dashboard",
   data() {
     return {
       user: {
         name: ""
-      }
+      },
+      dateFrom: moment().format("DD-MM-YYYY")
     };
   },
   methods: {
@@ -36,15 +38,24 @@ export default {
   },
   computed: {
     urlReport: function() {
-      //   console.log(this.user);
+      let date = `${moment().get("day")}-${moment().get(
+        "month"
+      )}-${moment().get("year")}`;
+      //   console.log(this.dateFrom);
+
+      //   console.log(
+      //     `/measurementsAVGUser/${this.user.ID}/report/${this.dateFrom}`
+      //   );
 
       //   return `/reportGenerator/${this.user.ID}/2019-07-15`;
-      return `/measurementsAVGUser/${this.user.ID}/report/2019-07-14`;
+      return `/measurementsAVGUser/${this.user.ID}/report/${this.dateFrom}`;
     }
   },
 
   mounted() {
     this.getUserData();
+    // let date = new Date();
+    // this.dateFrom = moment().format("DD-MM-YYYY");
   }
 };
 </script>
