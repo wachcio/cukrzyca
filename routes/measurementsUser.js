@@ -61,7 +61,10 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
    if (!_.isNumber(Number(userId)))
       res.json(badParameters("user ID is not correct"));
 
-   var query = "SELECT * FROM `measurements` WHERE `ID_user`=" + userId;
+   var query =
+      "SELECT * FROM `measurements` WHERE `ID_user`=" +
+      userId +
+      " ORDER BY `date_of_measurement` DESC";
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
    var dateTmp = moment(new Date(dateFrom));
