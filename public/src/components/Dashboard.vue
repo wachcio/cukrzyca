@@ -6,7 +6,35 @@
       <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
       <button class="btn btn-secondary" @click="currentPage = 3">Raport</button>
     </div>
-    <div v-show="currentPage == 1"></div>
+    <div v-show="currentPage == 1">
+      <div class="input-group mb-3">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="poziom cukru"
+          v-model="formAdd.sugar_level"
+        />
+        <input
+          type="number"
+          class="form-control"
+          placeholder="dawka insuliny"
+          v-model="formAdd.insulin_dose"
+        />
+        <input
+          type="number"
+          class="form-control"
+          placeholder="godzina odczytu"
+          v-model="formAdd.hour_of_measurement"
+        />
+        <datepicker
+          v-model="formAdd.date_of_measurement"
+          format="YYYY-MM-DD"
+          lang="en"
+          value-type="format"
+        ></datepicker>
+        <button class="btn btn-primary" @click="saveMeasurement()">Zapisz odczyt</button>
+      </div>
+    </div>
 
     <div v-show="currentPage == 2">
       <h3>Odczyty</h3>
@@ -14,7 +42,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">ID</th>
+            <!-- <th scope="col">ID</th> -->
             <th scope="col">Poziom cukru</th>
             <th scope="col">Dawka insuliny</th>
             <th scope="col">Godzina pomiaru</th>
@@ -24,7 +52,7 @@
         <tbody>
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
-            <td>{{measurement.ID}}</td>
+            <!-- <td>{{measurement.ID}}</td> -->
             <td>{{measurement.sugar_level}}</td>
             <td>{{measurement.insulin_dose}}</td>
             <td>{{measurement.hour_of_measurement}}</td>
@@ -81,6 +109,12 @@ export default {
         prev: "Poprzednia",
         next: "Następna",
         last: "Ostatnia"
+      },
+      formAdd: {
+        sugar_level: "",
+        insulin_dose: "",
+        hour_of_measurement: "",
+        date_of_measurement: ""
       }
     };
   },
@@ -94,8 +128,9 @@ export default {
       axios
         .get("/user")
         .then(response => {
-          console.log(response);
+          //   console.log(response);
           self.$set(this, "user", response.data.user);
+          //   this.formAdd.ID = response.data.user;
         })
         .then(response => {
           this.getAllMeasurements();
@@ -110,11 +145,33 @@ export default {
       axios
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
-          console.log(response);
+          //   console.log(response);
           self.$set(this, "measurements", response.data);
         })
         .then(response => {
           this.pages;
+        })
+        .catch(errors => {
+          console.log(errors);
+          router.push("/");
+        });
+    },
+    saveMeasurement: function() {
+      let self = this;
+      axios
+        .post("/measurementAdd/", {
+          ID_user: this.user.ID,
+          sugar_level: this.formAdd.sugar_level,
+          insulin_dose: this.formAdd.insulin_dose,
+          hour_of_measurement: this.formAdd.hour_of_measurement,
+          date_of_measurement: this.formAdd.date_of_measurement
+        })
+        .then(response => {
+          this.getAllMeasurements();
+          console.log(response);
+        })
+        .then(response => {
+          this.currentPage = 2;
         })
         .catch(errors => {
           console.log(errors);

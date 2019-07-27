@@ -34,12 +34,16 @@ const writeResult = rows => {
    for (let i = 0; i <= 14; i++) {
       if (i % 2 == 0) {
          if (rows[i]) {
-            result[`avg${i + 1}`] = rows[i][0].sugarLevelAVG;
+            _.round(rows[i][0].sugarLevelAVG, 1)
+               ? (result[`avg${i + 1}`] = _.round(rows[i][0].sugarLevelAVG, 1))
+               : "";
             console.log("I", rows[i][0]);
          }
       } else {
          if (rows[i]) {
-            result[`avg${i + 1}`] = rows[i][0].insulinDoseAVG;
+            _.round(rows[i][0].insulinDoseAVG, 1)
+               ? (result[`avg${i + 1}`] = _.round(rows[i][0].insulinDoseAVG, 1))
+               : "";
             console.log("S", rows[i][0]);
          }
       }

@@ -81,7 +81,7 @@ router.post("/", function(req, res, next) {
          date_of_measurement
       }) == false
    )
-      return res.json(badParameters("Bad parameters"));
+      return res.json("400", badParameters("Bad parameters"));
 
    connection.connect();
    connection.query(query, function(err, rows, fields) {
