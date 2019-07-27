@@ -1,32 +1,52 @@
 <template>
   <div>
-    <h2>Panel użytkownika {{ user.name }}</h2>
+    <h3>Panel użytkownika {{ user.name }}</h3>
+    <div class="btn-group" role="group">
+      <button class="btn btn-secondary" @click="currentPage = 1">Dodaj odczyt</button>
+      <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
+      <button class="btn btn-secondary" @click="currentPage = 3">Raport</button>
+    </div>
+    <div v-show="currentPage == 1"></div>
 
-    <a :href="urlReport" target="_blanc">Generuj tygodniowy raport od dnia</a>
-    <datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></datepicker>
-
-    <table class="table table-striped table-hover" v-if="measurements">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">ID</th>
-          <th scope="col">Poziom cukru</th>
-          <th scope="col">Dawka insuliny</th>
-          <th scope="col">Godzina pomiaru</th>
-          <th scope="col">Data pomiaru</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
-          <th scope="row">{{index+1}}</th>
-          <td>{{measurement.ID}}</td>
-          <td>{{measurement.sugar_level}}</td>
-          <td>{{measurement.insulin_dose}}</td>
-          <td>{{measurement.hour_of_measurement}}</td>
-          <td>{{measurement.date_of_measurement}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-show="currentPage == 2">
+      <h3>Odczyty</h3>
+      <table class="table table-striped table-hover" v-if="measurements" id="measurementsTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Poziom cukru</th>
+            <th scope="col">Dawka insuliny</th>
+            <th scope="col">Godzina pomiaru</th>
+            <th scope="col">Data pomiaru</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
+            <th scope="row">{{index+1}}</th>
+            <td>{{measurement.ID}}</td>
+            <td>{{measurement.sugar_level}}</td>
+            <td>{{measurement.insulin_dose}}</td>
+            <td>{{measurement.hour_of_measurement}}</td>
+            <td>{{measurement.date_of_measurement}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-if="0">
+        <p>Strona: {{ currentPage }}</p>
+        <v-pagination
+          v-model="currentPage"
+          :page-count="totalPages"
+          :classes="bootstrapPaginationClasses"
+          :labels="paginationAnchorTexts"
+        ></v-pagination>
+      </div>
+    </div>
+    <div v-show="currentPage == 3">
+      <p>Raport od dnia</p>
+      <datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></datepicker>
+      <a :href="urlReport" target="_blanc" class="btn btn-primary">Generuj</a>
+    </div>
   </div>
 </template>
 
@@ -35,6 +55,7 @@ import axios from "axios";
 import router from "../router";
 import moment from "moment";
 import Datepicker from "vue2-datepicker";
+import vPagination from "vue-plain-pagination";
 export default {
   name: "Dashboard",
   data() {
@@ -43,11 +64,29 @@ export default {
         name: ""
       },
       dateFrom: "",
-      measurements: ""
+      measurements: "",
+      perPage: 3,
+      currentPage: 1,
+      pageCount: 10,
+      totalPages: 0,
+      bootstrapPaginationClasses: {
+        ul: "pagination",
+        li: "page-item",
+        liActive: "active",
+        liDisable: "disabled",
+        button: "page-link"
+      },
+      paginationAnchorTexts: {
+        first: "Pierwsza",
+        prev: "Poprzednia",
+        next: "Następna",
+        last: "Ostatnia"
+      }
     };
   },
   components: {
-    Datepicker
+    Datepicker,
+    vPagination
   },
   methods: {
     getUserData: function() {
@@ -74,6 +113,9 @@ export default {
           console.log(response);
           self.$set(this, "measurements", response.data);
         })
+        .then(response => {
+          this.pages;
+        })
         .catch(errors => {
           console.log(errors);
           router.push("/");
@@ -97,6 +139,12 @@ export default {
 
       //   return `/reportGenerator/${this.user.ID}/2019-07-15`;
       return `/measurementsAVGUser/${this.user.ID}/report/${this.dateFrom}`;
+    },
+    rows() {
+      return this.measurements.length;
+    },
+    pages() {
+      this.totalPages = this.rows / this.perPage;
     }
   },
 

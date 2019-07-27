@@ -1,12 +1,9 @@
 <template>
   <div id="app">
-    <h2
-      class="text-center"
-    >Witam na stronie na której dodasz a później wydrukujesz raport tygodniowy z pomiarów cukru</h2>
-    <div>
-      <router-link :to="{ name: 'Dashboard'}">Panel użytkownika</router-link>
-      <router-link :to="{ name: 'Login'}">Login</router-link>
-      <a href="#" v-on:click="logout">Logout</a>
+    <div class="btn-group" role="group">
+      <router-link :to="{ name: 'Dashboard'}" class="btn btn-secondary">Panel użytkownika</router-link>
+      <router-link :to="{ name: 'Login'}" class="btn btn-secondary">Login</router-link>
+      <a href="#" v-on:click="logout" class="btn btn-secondary">Logout</a>
     </div>
     <router-view />
   </div>

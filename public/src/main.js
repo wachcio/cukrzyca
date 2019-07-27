@@ -1,6 +1,7 @@
 "use strict";
 
 import Vue from "vue";
+// import "./plugins/bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./components/App.vue";
 import router from "./router";
