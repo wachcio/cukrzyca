@@ -11,8 +11,10 @@
         <input
           type="number"
           class="form-control"
+          :class="{'alert alert-danger':$v.formAdd.sugar_level.$dirty && $v.formAdd.sugar_level.$invalid}"
           placeholder="poziom cukru"
           v-model="formAdd.sugar_level"
+          @input="$v.formAdd.sugar_level.$touch()"
         />
         <input
           type="number"
@@ -23,8 +25,10 @@
         <input
           type="number"
           class="form-control"
+          :class="{'alert alert-danger':$v.formAdd.hour_of_measurement.$dirty && $v.formAdd.hour_of_measurement.$invalid}"
           placeholder="godzina odczytu"
           v-model="formAdd.hour_of_measurement"
+          @input="$v.formAdd.hour_of_measurement.$touch()"
         />
         <datepicker
           v-model="formAdd.date_of_measurement"
@@ -32,8 +36,13 @@
           lang="en"
           value-type="format"
         ></datepicker>
-        <button class="btn btn-primary" @click="saveMeasurement()">Zapisz odczyt</button>
+        <button
+          class="btn btn-primary"
+          :disabled="$v.$invalid"
+          @click="saveMeasurement()"
+        >Zapisz odczyt</button>
       </div>
+      <!-- <pre>{{$v}}</pre> -->
     </div>
 
     <div v-show="currentPage == 2">
@@ -60,15 +69,6 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="0">
-        <p>Strona: {{ currentPage }}</p>
-        <v-pagination
-          v-model="currentPage"
-          :page-count="totalPages"
-          :classes="bootstrapPaginationClasses"
-          :labels="paginationAnchorTexts"
-        ></v-pagination>
-      </div>
     </div>
     <div v-show="currentPage == 3">
       <p>Raport od dnia</p>
@@ -83,7 +83,8 @@ import axios from "axios";
 import router from "../router";
 import moment from "moment";
 import Datepicker from "vue2-datepicker";
-import vPagination from "vue-plain-pagination";
+import { required, minLength, between } from "vuelidate/lib/validators";
+
 export default {
   name: "Dashboard",
   data() {
@@ -97,19 +98,6 @@ export default {
       currentPage: 1,
       pageCount: 10,
       totalPages: 0,
-      bootstrapPaginationClasses: {
-        ul: "pagination",
-        li: "page-item",
-        liActive: "active",
-        liDisable: "disabled",
-        button: "page-link"
-      },
-      paginationAnchorTexts: {
-        first: "Pierwsza",
-        prev: "Poprzednia",
-        next: "Następna",
-        last: "Ostatnia"
-      },
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -118,9 +106,26 @@ export default {
       }
     };
   },
+  validations: {
+    formAdd: {
+      sugar_level: {
+        required,
+        between: between(10, 400)
+      },
+      insuli_dose: {
+        between: between(0, 400)
+      },
+      hour_of_measurement: {
+        required,
+        between: between(1, 24)
+      },
+      date_of_measurement: {
+        required
+      }
+    }
+  },
   components: {
-    Datepicker,
-    vPagination
+    Datepicker
   },
   methods: {
     getUserData: function() {
@@ -211,6 +216,7 @@ export default {
     this.dateFrom = moment()
       .subtract(7, "days")
       .format("YYYY-MM-DD");
+    this.formAdd.date_of_measurement = moment().format("YYYY-MM-DD");
   }
 };
 </script>

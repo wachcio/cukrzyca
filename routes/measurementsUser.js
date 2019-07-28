@@ -104,7 +104,11 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
       }
       if (report != "report") {
          rows[0] == undefined
-            ? res.json(badParameters(`User ID:${userId} not exist`))
+            ? res.json(
+                 badParameters(
+                    `User ID:${userId} not exist or measurements is empty`
+                 )
+              )
             : res.json(rows);
       } else {
          if (moment(dateFrom, "YYYY-MM-DD").isValid) {
