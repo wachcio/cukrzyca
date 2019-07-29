@@ -63,24 +63,40 @@
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
             <!-- <td>{{measurement.ID}}</td> -->
-            <td>{{measurement.sugar_level}}</td>
-            <td>{{measurement.insulin_dose}}</td>
-            <td>{{measurement.hour_of_measurement}}</td>
-            <td>{{measurement.date_of_measurement}}</td>
-            <td>
-              <div class="btn btn-primary" @click="editMeasurement(measurement.ID)">
-                <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement.ID)" />
+            <td v-html="td(measurement, 'sugar_level', 'number')"></td>
+            <td v-html="td(measurement, 'insulin_dose', 'number')"></td>
+            <td v-html="td(measurement, 'hour_of_measurement', 'number')"></td>
+            <td v-html="td(measurement, 'date_of_measurement', 'text')"></td>
+            <td class="tdEnd">
+              <div v-show="edit.ID" class="btn">
+                &nbsp;
+                <font-awesome-icon size="lg" />
               </div>
-              <div class="btn btn-danger" @click="deleteMeasurement(measurement)">
+              <div v-show="!edit.ID" class="btn btn-primary" @click="editMeasurement(measurement)">
+                <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
+              </div>
+              <div v-show="!edit.ID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
                 <font-awesome-icon
                   icon="trash-alt"
                   size="lg"
                   @click="deleteMeasurement(measurement)"
                 />
               </div>
-              <!-- <div class="btn btn-primary">
-                <font-awesome-icon icon="check" size="lg"@click="editMeasurement(measurement.ID)" />
-              </div>-->
+
+              <div
+                v-show="edit.ID == measurement.ID"
+                class="btn btn-success"
+                @click="saveEditMeasurement(measurement.ID)"
+              >
+                <font-awesome-icon icon="check" size="lg" />
+              </div>
+              <div
+                v-show="edit.ID == measurement.ID"
+                class="btn btn-danger"
+                @click="edit.ID = null"
+              >
+                <font-awesome-icon icon="times" size="lg" />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -110,10 +126,14 @@ export default {
       },
       dateFrom: "",
       measurements: "",
-      perPage: 3,
-      currentPage: 1,
-      pageCount: 10,
-      totalPages: 0,
+      currentPage: "",
+      edit: {
+        ID: "",
+        sugar_level: "",
+        insulin_dose: "",
+        hour_of_measurement: "",
+        date_of_measurement: ""
+      },
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -203,8 +223,8 @@ export default {
       return moment(date).format("YYYY-MM-DD");
       //   return "DD-MM-YYYY";
     },
-    editMeasurement: function(ID) {
-      console.log(ID);
+    editMeasurement: function(m) {
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function(m) {
       if (
@@ -234,6 +254,17 @@ export default {
             router.push("/");
           });
       }
+    },
+    td: function(m, mField, inputType) {
+      // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
+      this.edit[mField] = m[mField];
+
+      return this.edit.ID == m.ID
+        ? `<input type="${inputType}" value="${m[mField]}"/>`
+        : m[mField];
+    },
+    saveEditMeasurement: function(ID) {
+      for (var member in this.edit) delete this.edit[member];
     }
   },
   computed: {
@@ -277,5 +308,8 @@ th {
 }
 .confirm {
   width: 200px;
+}
+.tdEnd {
+  text-align: end;
 }
 </style>

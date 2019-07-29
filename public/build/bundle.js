@@ -119,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faTrashAlt"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faTimes"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faCheck"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faPen"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_session__WEBPACK_IMPORTED_MODULE_4___default.a);
@@ -16878,26 +16879,74 @@ var render = function() {
                         _vm._v(_vm._s(index + 1))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(measurement.sugar_level))]),
+                      _c("td", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.td(measurement, "sugar_level", "number")
+                          )
+                        }
+                      }),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(measurement.insulin_dose))]),
+                      _c("td", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.td(measurement, "insulin_dose", "number")
+                          )
+                        }
+                      }),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(measurement.hour_of_measurement))
-                      ]),
+                      _c("td", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.td(measurement, "hour_of_measurement", "number")
+                          )
+                        }
+                      }),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(measurement.date_of_measurement))
-                      ]),
+                      _c("td", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            _vm.td(measurement, "date_of_measurement", "text")
+                          )
+                        }
+                      }),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "tdEnd" }, [
                         _c(
                           "div",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.edit.ID,
+                                expression: "edit.ID"
+                              }
+                            ],
+                            staticClass: "btn"
+                          },
+                          [
+                            _vm._v("\n               \n              "),
+                            _c("font-awesome-icon", { attrs: { size: "lg" } })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.edit.ID,
+                                expression: "!edit.ID"
+                              }
+                            ],
                             staticClass: "btn btn-primary",
                             on: {
                               click: function($event) {
-                                return _vm.editMeasurement(measurement.ID)
+                                return _vm.editMeasurement(measurement)
                               }
                             }
                           },
@@ -16906,7 +16955,7 @@ var render = function() {
                               attrs: { icon: "pen", size: "lg" },
                               on: {
                                 click: function($event) {
-                                  return _vm.editMeasurement(measurement.ID)
+                                  return _vm.editMeasurement(measurement)
                                 }
                               }
                             })
@@ -16917,6 +16966,14 @@ var render = function() {
                         _c(
                           "div",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.edit.ID,
+                                expression: "!edit.ID"
+                              }
+                            ],
                             staticClass: "btn btn-danger",
                             on: {
                               click: function($event) {
@@ -16932,6 +16989,58 @@ var render = function() {
                                   return _vm.deleteMeasurement(measurement)
                                 }
                               }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.edit.ID == measurement.ID,
+                                expression: "edit.ID == measurement.ID"
+                              }
+                            ],
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                return _vm.saveEditMeasurement(measurement.ID)
+                              }
+                            }
+                          },
+                          [
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "check", size: "lg" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.edit.ID == measurement.ID,
+                                expression: "edit.ID == measurement.ID"
+                              }
+                            ],
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                _vm.edit.ID = null
+                              }
+                            }
+                          },
+                          [
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "times", size: "lg" }
                             })
                           ],
                           1
@@ -17132,6 +17241,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17148,10 +17273,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       dateFrom: "",
       measurements: "",
-      perPage: 3,
-      currentPage: 1,
-      pageCount: 10,
-      totalPages: 0,
+      currentPage: "",
+      edit: {
+        ID: "",
+        sugar_level: "",
+        insulin_dose: "",
+        hour_of_measurement: "",
+        date_of_measurement: ""
+      },
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -17229,8 +17358,8 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format("YYYY-MM-DD");
       //   return "DD-MM-YYYY";
     },
-    editMeasurement: function (ID) {
-      console.log(ID);
+    editMeasurement: function (m) {
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function (m) {
       if (confirm("Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " + m.sugar_level + "\nDawka insuliny: " + m.insulin_dose + "\nGodzina pomiaru: " + m.hour_of_measurement + "\nData pomiaru: " + m.date_of_measurement + "?")) {
@@ -17244,6 +17373,15 @@ __webpack_require__.r(__webpack_exports__);
           _router__WEBPACK_IMPORTED_MODULE_1__["default"].push("/");
         });
       }
+    },
+    td: function (m, mField, inputType) {
+      // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
+      this.edit[mField] = m[mField];
+
+      return this.edit.ID == m.ID ? `<input type="${inputType}" value="${m[mField]}"/>` : m[mField];
+    },
+    saveEditMeasurement: function (ID) {
+      for (var member in this.edit) delete this.edit[member];
     }
   },
   computed: {
@@ -35250,7 +35388,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\r\n", ""]);
+exports.push([module.i, "\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\n.tdEnd[data-v-263b7fce] {\r\n  text-align: end;\n}\r\n", ""]);
 
 // exports
 
