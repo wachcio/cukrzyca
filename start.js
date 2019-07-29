@@ -20,6 +20,8 @@ var userAddRouter = require("./routes/userAdd");
 var measurementAddRouter = require("./routes/measurementAdd");
 var measurementsUserRouter = require("./routes/measurementsUser");
 var measurementsAVGUserRouter = require("./routes/measurementsAVGUser");
+var measurementDeleteRouter = require("./routes/measurementDelete");
+
 var reportRouter = require("./routes/report");
 var reportGeneratorRouter = require("./routes/reportGenerator");
 var loginRouter = require("./routes/login");
@@ -65,6 +67,7 @@ app.use("/userAdd", userAddRouter);
 app.use("/measurementAdd", measurementAddRouter);
 app.use("/measurementsUser", measurementsUserRouter);
 app.use("/measurementsAVGUser", measurementsAVGUserRouter);
+app.use("/measurementDelete", measurementDeleteRouter);
 app.use("/report", reportRouter);
 app.use("/reportGenerator", reportGeneratorRouter);
 app.use("/login", loginRouter);

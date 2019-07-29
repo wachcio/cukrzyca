@@ -56,6 +56,7 @@
             <th scope="col">Dawka insuliny</th>
             <th scope="col">Godzina pomiaru</th>
             <th scope="col">Data pomiaru</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +67,21 @@
             <td>{{measurement.insulin_dose}}</td>
             <td>{{measurement.hour_of_measurement}}</td>
             <td>{{measurement.date_of_measurement}}</td>
+            <td>
+              <div class="btn btn-primary">
+                <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement.ID)" />
+              </div>
+              <div class="btn btn-danger">
+                <font-awesome-icon
+                  icon="trash-alt"
+                  size="lg"
+                  @click="deleteMeasurement(measurement)"
+                />
+              </div>
+              <!-- <div class="btn btn-primary">
+                <font-awesome-icon icon="check" size="lg"@click="editMeasurement(measurement.ID)" />
+              </div>-->
+            </td>
           </tr>
         </tbody>
       </table>
@@ -186,6 +202,38 @@ export default {
     customFormat: function(date) {
       return moment(date).format("YYYY-MM-DD");
       //   return "DD-MM-YYYY";
+    },
+    editMeasurement: function(ID) {
+      console.log(ID);
+    },
+    deleteMeasurement: function(m) {
+      if (
+        confirm(
+          "Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " +
+            m.sugar_level +
+            "\nDawka insuliny: " +
+            m.insulin_dose +
+            "\nGodzina pomiaru: " +
+            m.hour_of_measurement +
+            "\nData pomiaru: " +
+            m.date_of_measurement +
+            "?"
+        )
+      ) {
+        axios
+          .delete("/measurementDelete/", { params: { ID: m.ID } })
+          .then(response => {
+            this.getAllMeasurements();
+            console.log(response);
+          })
+          .then(response => {
+            this.currentPage = 2;
+          })
+          .catch(errors => {
+            console.log(errors);
+            router.push("/");
+          });
+      }
     }
   },
   computed: {
@@ -220,3 +268,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+td,
+th {
+  vertical-align: baseline;
+  padding: 0.25em;
+}
+.confirm {
+  width: 200px;
+}
+</style>
