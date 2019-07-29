@@ -68,10 +68,10 @@
             <td>{{measurement.hour_of_measurement}}</td>
             <td>{{measurement.date_of_measurement}}</td>
             <td>
-              <div class="btn btn-primary">
+              <div class="btn btn-primary" @click="editMeasurement(measurement.ID)">
                 <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement.ID)" />
               </div>
-              <div class="btn btn-danger">
+              <div class="btn btn-danger" @click="deleteMeasurement(measurement)">
                 <font-awesome-icon
                   icon="trash-alt"
                   size="lg"

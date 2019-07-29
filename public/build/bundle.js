@@ -16893,7 +16893,14 @@ var render = function() {
                       _c("td", [
                         _c(
                           "div",
-                          { staticClass: "btn btn-primary" },
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editMeasurement(measurement.ID)
+                              }
+                            }
+                          },
                           [
                             _c("font-awesome-icon", {
                               attrs: { icon: "pen", size: "lg" },
@@ -16909,7 +16916,14 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "btn btn-danger" },
+                          {
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteMeasurement(measurement)
+                              }
+                            }
+                          },
                           [
                             _c("font-awesome-icon", {
                               attrs: { icon: "trash-alt", size: "lg" },
