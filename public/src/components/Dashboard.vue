@@ -51,7 +51,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <!-- <th scope="col">ID</th> -->
+            <th scope="col">ID</th>
             <th scope="col">Poziom cukru</th>
             <th scope="col">Dawka insuliny</th>
             <th scope="col">Godzina pomiaru</th>
@@ -62,7 +62,7 @@
         <tbody>
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
-            <!-- <td>{{measurement.ID}}</td> -->
+            <td>{{measurement.ID}}</td>
             <td v-html="td(measurement, 'sugar_level', 'number')"></td>
             <td v-html="td(measurement, 'insulin_dose', 'number')"></td>
             <td v-html="td(measurement, 'hour_of_measurement', 'number')"></td>
@@ -93,7 +93,7 @@
               <div
                 v-show="edit.ID == measurement.ID"
                 class="btn btn-danger"
-                @click="edit.ID = null"
+                @click="cleanEditObject()"
               >
                 <font-awesome-icon icon="times" size="lg" />
               </div>
@@ -164,6 +164,20 @@ export default {
     Datepicker
   },
   methods: {
+    cleanEditObject: function() {
+      // let self = this;
+      console.log("clean", this.edit);
+
+      this.edit.ID = null;
+      this.edit.ID_user = null;
+      this.edit.date_of_measurement = null;
+      this.edit.date_added = null;
+      this.edit.hour_of_measurement = null;
+      this.edit.insulin_dose = null;
+      this.edit.sugar_level = null;
+
+      // this.edit.sugar_level = 33;
+    },
     getUserData: function() {
       let self = this;
       axios
@@ -224,7 +238,8 @@ export default {
       //   return "DD-MM-YYYY";
     },
     editMeasurement: function(m) {
-      this.edit.ID = m.ID;
+      // this.edit = m;
+      Object.assign(this.edit, m);
     },
     deleteMeasurement: function(m) {
       if (
@@ -257,7 +272,7 @@ export default {
     },
     td: function(m, mField, inputType) {
       // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
-      this.edit[mField] = m[mField];
+      // this.edit[mField] = m[mField];
 
       return this.edit.ID == m.ID
         ? `<input type="${inputType}" value="${m[mField]}"/>`

@@ -16879,6 +16879,8 @@ var render = function() {
                         _vm._v(_vm._s(index + 1))
                       ]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(measurement.ID))]),
+                      _vm._v(" "),
                       _c("td", {
                         domProps: {
                           innerHTML: _vm._s(
@@ -17034,7 +17036,7 @@ var render = function() {
                             staticClass: "btn btn-danger",
                             on: {
                               click: function($event) {
-                                _vm.edit.ID = null
+                                return _vm.cleanEditObject()
                               }
                             }
                           },
@@ -17103,6 +17105,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Poziom cukru")]),
         _vm._v(" "),
@@ -17311,6 +17315,20 @@ __webpack_require__.r(__webpack_exports__);
     Datepicker: (vue2_datepicker__WEBPACK_IMPORTED_MODULE_3___default())
   },
   methods: {
+    cleanEditObject: function () {
+      // let self = this;
+      console.log("clean", this.edit);
+
+      this.edit.ID = null;
+      this.edit.ID_user = null;
+      this.edit.date_of_measurement = null;
+      this.edit.date_added = null;
+      this.edit.hour_of_measurement = null;
+      this.edit.insulin_dose = null;
+      this.edit.sugar_level = null;
+
+      // this.edit.sugar_level = 33;
+    },
     getUserData: function () {
       let self = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/user").then(response => {
@@ -17359,7 +17377,8 @@ __webpack_require__.r(__webpack_exports__);
       //   return "DD-MM-YYYY";
     },
     editMeasurement: function (m) {
-      this.edit.ID = m.ID;
+      // this.edit = m;
+      Object.assign(this.edit, m);
     },
     deleteMeasurement: function (m) {
       if (confirm("Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " + m.sugar_level + "\nDawka insuliny: " + m.insulin_dose + "\nGodzina pomiaru: " + m.hour_of_measurement + "\nData pomiaru: " + m.date_of_measurement + "?")) {
@@ -17376,7 +17395,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     td: function (m, mField, inputType) {
       // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
-      this.edit[mField] = m[mField];
+      // this.edit[mField] = m[mField];
 
       return this.edit.ID == m.ID ? `<input type="${inputType}" value="${m[mField]}"/>` : m[mField];
     },
