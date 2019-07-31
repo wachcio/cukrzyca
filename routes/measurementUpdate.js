@@ -67,8 +67,7 @@ router.patch("/", function(req, res, next) {
       timezone: process.env.TZ,
       multipleStatements: true,
       charset: "utf8_general_ci",
-      dateStrings: true,
-      debug: true
+      dateStrings: true
    });
    connection.escape();
    connection.connect();

@@ -16882,37 +16882,149 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(measurement.ID))]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            _vm.td(measurement, "sugar_level", "number")
-                          )
-                        }
-                      }),
+                      _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.sugar_level,
+                                  expression: "measurement.sugar_level"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: { value: measurement.sugar_level },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "sugar_level",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.sugar_level))
+                            ])
+                          : _vm._e()
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            _vm.td(measurement, "insulin_dose", "number")
-                          )
-                        }
-                      }),
+                      _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.insulin_dose,
+                                  expression: "measurement.insulin_dose"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: { value: measurement.insulin_dose },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "insulin_dose",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.insulin_dose))
+                            ])
+                          : _vm._e()
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            _vm.td(measurement, "hour_of_measurement", "number")
-                          )
-                        }
-                      }),
+                      _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.hour_of_measurement,
+                                  expression: "measurement.hour_of_measurement"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: {
+                                value: measurement.hour_of_measurement
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "hour_of_measurement",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.hour_of_measurement))
+                            ])
+                          : _vm._e()
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            _vm.td(measurement, "date_of_measurement", "text")
-                          )
-                        }
-                      }),
+                      _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.date_of_measurement,
+                                  expression: "measurement.date_of_measurement"
+                                }
+                              ],
+                              attrs: { type: "text" },
+                              domProps: {
+                                value: measurement.date_of_measurement
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "date_of_measurement",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.date_of_measurement))
+                            ])
+                          : _vm._e()
+                      ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "tdEnd" }, [
                         _c(
@@ -17016,7 +17128,7 @@ var render = function() {
                             staticClass: "btn btn-success",
                             on: {
                               click: function($event) {
-                                return _vm.saveEditMeasurement(measurement.ID)
+                                return _vm.saveEditMeasurement(measurement)
                               }
                             }
                           },
@@ -17035,8 +17147,8 @@ var render = function() {
                               {
                                 name: "show",
                                 rawName: "v-show",
-                                value: _vm.edit.ID == measurement.ID,
-                                expression: "edit.ID == measurement.ID"
+                                value: false,
+                                expression: "false"
                               }
                             ],
                             staticClass: "btn btn-danger",
@@ -17268,6 +17380,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17286,11 +17422,11 @@ __webpack_require__.r(__webpack_exports__);
       measurements: "",
       currentPage: 1,
       edit: {
-        ID: "",
-        sugar_level: "",
-        insulin_dose: "",
-        hour_of_measurement: "",
-        date_of_measurement: ""
+        ID: ""
+        // sugar_level: "",
+        // insulin_dose: "",
+        // hour_of_measurement: "",
+        // date_of_measurement: ""
       },
       formAdd: {
         sugar_level: "",
@@ -17324,15 +17460,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     cleanEditObject: function () {
       // let self = this;
-      console.log("clean", this.edit);
+      // console.log("clean", this.edit);
 
       this.edit.ID = null;
-      this.edit.ID_user = null;
-      this.edit.date_of_measurement = null;
-      this.edit.date_added = null;
-      this.edit.hour_of_measurement = null;
-      this.edit.insulin_dose = null;
-      this.edit.sugar_level = null;
+      // this.edit.ID_user = null;
+      // this.edit.date_of_measurement = null;
+      // this.edit.date_added = null;
+      // this.edit.hour_of_measurement = null;
+      // this.edit.insulin_dose = null;
+      // this.edit.sugar_level = null;
 
       // this.edit.sugar_level = 33;
     },
@@ -17385,7 +17521,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     editMeasurement: function (m) {
       // this.edit = m;
-      Object.assign(this.edit, m);
+      // Object.assign(this.edit, m);
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function (m) {
       if (confirm("Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " + m.sugar_level + "\nDawka insuliny: " + m.insulin_dose + "\nGodzina pomiaru: " + m.hour_of_measurement + "\nData pomiaru: " + m.date_of_measurement + "?")) {
@@ -17404,20 +17541,29 @@ __webpack_require__.r(__webpack_exports__);
       // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
       // this.edit[mField] = m[mField];
 
-      return this.edit.ID == m.ID ? `<input type="${inputType}" value="${m[mField]}" v-model="${this.edit[mField]}"/>` : m[mField];
+      return this.edit.ID == m.ID ? `<input type="${inputType}" v-model="${m[mField]}"/>` : `${m[mField]}`;
     },
-    saveEditMeasurement: function (ID) {
+    VModelTd: function (m, mField) {
+      return this.edit.ID == m.ID ? this.edit[mField] : m[mField];
+    },
+    saveEditMeasurement: function (m) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/measurementUpdate/", {
-        ID: this.edit.ID,
-        sugar_level: this.edit.sugar_level,
-        insulin_dose: this.edit.insulin_dose,
-        date_of_measurement: this.edit.date_of_measurement,
-        hour_of_measurement: this.edit.hour_of_measurement
+        ID: m.ID,
+        sugar_level: m.sugar_level,
+        insulin_dose: m.insulin_dose,
+        date_of_measurement: m.date_of_measurement,
+        hour_of_measurement: m.hour_of_measurement
+        // ID: this.edit.ID,
+        // sugar_level: this.edit.sugar_level,
+        // insulin_dose: this.edit.insulin_dose,
+        // date_of_measurement: this.edit.date_of_measurement,
+        // hour_of_measurement: this.edit.hour_of_measurement
       }).then(response => {
         this.getAllMeasurements();
         console.log(response);
       }).then(response => {
-        for (var member in this.edit) delete this.edit[member];
+        // for (var member in this.edit) delete this.edit[member];
+        this.cleanEditObject();
       }).then(response => {
         this.currentPage = 2;
       }).catch(errors => {

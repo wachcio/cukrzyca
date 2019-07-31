@@ -63,10 +63,38 @@
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
             <td>{{measurement.ID}}</td>
-            <td v-html="td(measurement, 'sugar_level', 'number')"></td>
-            <td v-html="td(measurement, 'insulin_dose', 'number')"></td>
-            <td v-html="td(measurement, 'hour_of_measurement', 'number')"></td>
-            <td v-html="td(measurement, 'date_of_measurement', 'text')"></td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.sugar_level"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.sugar_level}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.insulin_dose"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.insulin_dose}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.hour_of_measurement"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.hour_of_measurement}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.date_of_measurement"
+                type="text"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.date_of_measurement}}</span>
+            </td>
             <td class="tdEnd">
               <div v-show="edit.ID !=measurement.ID && edit.ID !=null" class="btn">
                 &nbsp;
@@ -86,15 +114,11 @@
               <div
                 v-show="edit.ID == measurement.ID"
                 class="btn btn-success"
-                @click="saveEditMeasurement(measurement.ID)"
+                @click="saveEditMeasurement(measurement)"
               >
                 <font-awesome-icon icon="check" size="lg" />
               </div>
-              <div
-                v-show="edit.ID == measurement.ID"
-                class="btn btn-danger"
-                @click="cleanEditObject()"
-              >
+              <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
                 <font-awesome-icon icon="times" size="lg" />
               </div>
             </td>
@@ -128,11 +152,11 @@ export default {
       measurements: "",
       currentPage: 1,
       edit: {
-        ID: "",
-        sugar_level: "",
-        insulin_dose: "",
-        hour_of_measurement: "",
-        date_of_measurement: ""
+        ID: ""
+        // sugar_level: "",
+        // insulin_dose: "",
+        // hour_of_measurement: "",
+        // date_of_measurement: ""
       },
       formAdd: {
         sugar_level: "",
@@ -166,15 +190,15 @@ export default {
   methods: {
     cleanEditObject: function() {
       // let self = this;
-      console.log("clean", this.edit);
+      // console.log("clean", this.edit);
 
       this.edit.ID = null;
-      this.edit.ID_user = null;
-      this.edit.date_of_measurement = null;
-      this.edit.date_added = null;
-      this.edit.hour_of_measurement = null;
-      this.edit.insulin_dose = null;
-      this.edit.sugar_level = null;
+      // this.edit.ID_user = null;
+      // this.edit.date_of_measurement = null;
+      // this.edit.date_added = null;
+      // this.edit.hour_of_measurement = null;
+      // this.edit.insulin_dose = null;
+      // this.edit.sugar_level = null;
 
       // this.edit.sugar_level = 33;
     },
@@ -239,7 +263,8 @@ export default {
     },
     editMeasurement: function(m) {
       // this.edit = m;
-      Object.assign(this.edit, m);
+      // Object.assign(this.edit, m);
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function(m) {
       if (
@@ -275,24 +300,33 @@ export default {
       // this.edit[mField] = m[mField];
 
       return this.edit.ID == m.ID
-        ? `<input type="${inputType}" value="${m[mField]}" v-model="${this.edit[mField]}"/>`
-        : m[mField];
+        ? `<input type="${inputType}" v-model="${m[mField]}"/>`
+        : `${m[mField]}`;
     },
-    saveEditMeasurement: function(ID) {
+    VModelTd: function(m, mField) {
+      return this.edit.ID == m.ID ? this.edit[mField] : m[mField];
+    },
+    saveEditMeasurement: function(m) {
       axios
         .patch("/measurementUpdate/", {
-          ID: this.edit.ID,
-          sugar_level: this.edit.sugar_level,
-          insulin_dose: this.edit.insulin_dose,
-          date_of_measurement: this.edit.date_of_measurement,
-          hour_of_measurement: this.edit.hour_of_measurement
+          ID: m.ID,
+          sugar_level: m.sugar_level,
+          insulin_dose: m.insulin_dose,
+          date_of_measurement: m.date_of_measurement,
+          hour_of_measurement: m.hour_of_measurement
+          // ID: this.edit.ID,
+          // sugar_level: this.edit.sugar_level,
+          // insulin_dose: this.edit.insulin_dose,
+          // date_of_measurement: this.edit.date_of_measurement,
+          // hour_of_measurement: this.edit.hour_of_measurement
         })
         .then(response => {
           this.getAllMeasurements();
           console.log(response);
         })
         .then(response => {
-          for (var member in this.edit) delete this.edit[member];
+          // for (var member in this.edit) delete this.edit[member];
+          this.cleanEditObject();
         })
         .then(response => {
           this.currentPage = 2;
