@@ -6,8 +6,8 @@
       <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
       <button class="btn btn-secondary" @click="currentPage = 3">Raport</button>
     </div>
-    <div v-show="currentPage == 1">
-      <div class="input-group mb-3">
+    <div class="containerForm" v-show="currentPage == 1">
+      <form class="input-group mb-3">
         <input
           type="number"
           class="form-control"
@@ -37,11 +37,11 @@
           value-type="format"
         ></datepicker>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary btn__saveMeasurement"
           :disabled="$v.$invalid"
           @click="saveMeasurement()"
         >Zapisz odczyt</button>
-      </div>
+      </form>
       <!-- <pre>{{$v}}</pre> -->
     </div>
 
@@ -68,9 +68,9 @@
             <td v-html="td(measurement, 'hour_of_measurement', 'number')"></td>
             <td v-html="td(measurement, 'date_of_measurement', 'text')"></td>
             <td class="tdEnd">
-              <div v-show="edit.ID" class="btn">
+              <div v-show="edit.ID !=measurement.ID && edit.ID !=null" class="btn">
                 &nbsp;
-                <font-awesome-icon size="lg" />
+                <font-awesome-icon icon size="lg" />
               </div>
               <div v-show="!edit.ID" class="btn btn-primary" @click="editMeasurement(measurement)">
                 <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
@@ -102,7 +102,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="currentPage == 3">
+    <div v-show="currentPage == 3" class="report__container">
       <p>Raport od dnia</p>
       <datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></datepicker>
       <a :href="urlReport" target="_blanc" class="btn btn-primary">Generuj</a>
@@ -126,7 +126,7 @@ export default {
       },
       dateFrom: "",
       measurements: "",
-      currentPage: "",
+      currentPage: 1,
       edit: {
         ID: "",
         sugar_level: "",
@@ -275,11 +275,32 @@ export default {
       // this.edit[mField] = m[mField];
 
       return this.edit.ID == m.ID
-        ? `<input type="${inputType}" value="${m[mField]}"/>`
+        ? `<input type="${inputType}" value="${m[mField]}" v-model="${this.edit[mField]}"/>`
         : m[mField];
     },
     saveEditMeasurement: function(ID) {
-      for (var member in this.edit) delete this.edit[member];
+      axios
+        .patch("/measurementUpdate/", {
+          ID: this.edit.ID,
+          sugar_level: this.edit.sugar_level,
+          insulin_dose: this.edit.insulin_dose,
+          date_of_measurement: this.edit.date_of_measurement,
+          hour_of_measurement: this.edit.hour_of_measurement
+        })
+        .then(response => {
+          this.getAllMeasurements();
+          console.log(response);
+        })
+        .then(response => {
+          for (var member in this.edit) delete this.edit[member];
+        })
+        .then(response => {
+          this.currentPage = 2;
+        })
+        .catch(errors => {
+          console.log(errors);
+          router.push("/");
+        });
     }
   },
   computed: {
@@ -316,15 +337,37 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  font-size: 1.3em;
+}
 td,
 th {
   vertical-align: baseline;
   padding: 0.25em;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  padding-top: 20px;
+}
+.containerForm {
+  width: 200px;
+}
+input,
+.mx-datepicker {
+  width: 100% !important;
+}
+.btn__saveMeasurement {
+  margin-top: 20px;
 }
 .confirm {
   width: 200px;
 }
 .tdEnd {
   text-align: end;
+}
+.report__container {
+  width: 200px;
 }
 </style>

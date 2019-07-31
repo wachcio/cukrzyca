@@ -16715,11 +16715,12 @@ var render = function() {
             value: _vm.currentPage == 1,
             expression: "currentPage == 1"
           }
-        ]
+        ],
+        staticClass: "containerForm"
       },
       [
         _c(
-          "div",
+          "form",
           { staticClass: "input-group mb-3" },
           [
             _c("input", {
@@ -16830,7 +16831,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-primary",
+                staticClass: "btn btn-primary btn__saveMeasurement",
                 attrs: { disabled: _vm.$v.$invalid },
                 on: {
                   click: function($event) {
@@ -16921,15 +16922,20 @@ var render = function() {
                               {
                                 name: "show",
                                 rawName: "v-show",
-                                value: _vm.edit.ID,
-                                expression: "edit.ID"
+                                value:
+                                  _vm.edit.ID != measurement.ID &&
+                                  _vm.edit.ID != null,
+                                expression:
+                                  "edit.ID !=measurement.ID && edit.ID !=null"
                               }
                             ],
                             staticClass: "btn"
                           },
                           [
                             _vm._v("\n               \n              "),
-                            _c("font-awesome-icon", { attrs: { size: "lg" } })
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "", size: "lg" }
+                            })
                           ],
                           1
                         ),
@@ -17068,7 +17074,8 @@ var render = function() {
             value: _vm.currentPage == 3,
             expression: "currentPage == 3"
           }
-        ]
+        ],
+        staticClass: "report__container"
       },
       [
         _c("p", [_vm._v("Raport od dnia")]),
@@ -17277,7 +17284,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       dateFrom: "",
       measurements: "",
-      currentPage: "",
+      currentPage: 1,
       edit: {
         ID: "",
         sugar_level: "",
@@ -17397,10 +17404,26 @@ __webpack_require__.r(__webpack_exports__);
       // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
       // this.edit[mField] = m[mField];
 
-      return this.edit.ID == m.ID ? `<input type="${inputType}" value="${m[mField]}"/>` : m[mField];
+      return this.edit.ID == m.ID ? `<input type="${inputType}" value="${m[mField]}" v-model="${this.edit[mField]}"/>` : m[mField];
     },
     saveEditMeasurement: function (ID) {
-      for (var member in this.edit) delete this.edit[member];
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/measurementUpdate/", {
+        ID: this.edit.ID,
+        sugar_level: this.edit.sugar_level,
+        insulin_dose: this.edit.insulin_dose,
+        date_of_measurement: this.edit.date_of_measurement,
+        hour_of_measurement: this.edit.hour_of_measurement
+      }).then(response => {
+        this.getAllMeasurements();
+        console.log(response);
+      }).then(response => {
+        for (var member in this.edit) delete this.edit[member];
+      }).then(response => {
+        this.currentPage = 2;
+      }).catch(errors => {
+        console.log(errors);
+        _router__WEBPACK_IMPORTED_MODULE_1__["default"].push("/");
+      });
     }
   },
   computed: {
@@ -35407,7 +35430,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\n.tdEnd[data-v-263b7fce] {\r\n  text-align: end;\n}\r\n", ""]);
+exports.push([module.i, "\nh3[data-v-263b7fce] {\r\n  font-size: 1.3em;\n}\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\nform[data-v-263b7fce] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  flex-basis: 200px;\r\n  padding-top: 20px;\n}\n.containerForm[data-v-263b7fce] {\r\n  width: 200px;\n}\ninput[data-v-263b7fce],\r\n.mx-datepicker[data-v-263b7fce] {\r\n  width: 100% !important;\n}\n.btn__saveMeasurement[data-v-263b7fce] {\r\n  margin-top: 20px;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\n.tdEnd[data-v-263b7fce] {\r\n  text-align: end;\n}\n.report__container[data-v-263b7fce] {\r\n  width: 200px;\n}\r\n", ""]);
 
 // exports
 
@@ -61367,7 +61390,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\nbody {\r\n  margin: 20px !important;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\r\n", ""]);
 
 // exports
 

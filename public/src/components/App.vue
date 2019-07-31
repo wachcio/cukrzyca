@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 20px !important;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
