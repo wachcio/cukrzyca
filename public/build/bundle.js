@@ -119,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faTrashAlt"]);
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faTimes"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faCheck"]);
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_6__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faPen"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_session__WEBPACK_IMPORTED_MODULE_4___default.a);
@@ -16714,11 +16715,12 @@ var render = function() {
             value: _vm.currentPage == 1,
             expression: "currentPage == 1"
           }
-        ]
+        ],
+        staticClass: "containerForm"
       },
       [
         _c(
-          "div",
+          "form",
           { staticClass: "input-group mb-3" },
           [
             _c("input", {
@@ -16829,7 +16831,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-primary",
+                staticClass: "btn btn-primary btn__saveMeasurement",
                 attrs: { disabled: _vm.$v.$invalid },
                 on: {
                   click: function($event) {
@@ -16878,28 +16880,202 @@ var render = function() {
                         _vm._v(_vm._s(index + 1))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(measurement.sugar_level))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(measurement.insulin_dose))]),
+                      _c("td", [_vm._v(_vm._s(measurement.ID))]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(measurement.hour_of_measurement))
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.sugar_level,
+                                  expression: "measurement.sugar_level"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: { value: measurement.sugar_level },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "sugar_level",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.sugar_level))
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(measurement.date_of_measurement))
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.insulin_dose,
+                                  expression: "measurement.insulin_dose"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: { value: measurement.insulin_dose },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "insulin_dose",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.insulin_dose))
+                            ])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.hour_of_measurement,
+                                  expression: "measurement.hour_of_measurement"
+                                }
+                              ],
+                              attrs: { type: "number" },
+                              domProps: {
+                                value: measurement.hour_of_measurement
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "hour_of_measurement",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.hour_of_measurement))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm.edit.ID == measurement.ID
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: measurement.date_of_measurement,
+                                  expression: "measurement.date_of_measurement"
+                                }
+                              ],
+                              attrs: { type: "text" },
+                              domProps: {
+                                value: measurement.date_of_measurement
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    measurement,
+                                    "date_of_measurement",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.edit.ID != measurement.ID
+                          ? _c("span", [
+                              _vm._v(_vm._s(measurement.date_of_measurement))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "tdEnd" }, [
                         _c(
                           "div",
-                          { staticClass: "btn btn-primary" },
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value:
+                                  _vm.edit.ID != measurement.ID &&
+                                  _vm.edit.ID != null,
+                                expression:
+                                  "edit.ID !=measurement.ID && edit.ID !=null"
+                              }
+                            ],
+                            staticClass: "btn"
+                          },
+                          [
+                            _vm._v("\n               \n              "),
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "", size: "lg" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.edit.ID,
+                                expression: "!edit.ID"
+                              }
+                            ],
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.editMeasurement(measurement)
+                              }
+                            }
+                          },
                           [
                             _c("font-awesome-icon", {
                               attrs: { icon: "pen", size: "lg" },
                               on: {
                                 click: function($event) {
-                                  return _vm.editMeasurement(measurement.ID)
+                                  return _vm.editMeasurement(measurement)
                                 }
                               }
                             })
@@ -16909,7 +17085,22 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "btn btn-danger" },
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.edit.ID,
+                                expression: "!edit.ID"
+                              }
+                            ],
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteMeasurement(measurement)
+                              }
+                            }
+                          },
                           [
                             _c("font-awesome-icon", {
                               attrs: { icon: "trash-alt", size: "lg" },
@@ -16918,6 +17109,58 @@ var render = function() {
                                   return _vm.deleteMeasurement(measurement)
                                 }
                               }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.edit.ID == measurement.ID,
+                                expression: "edit.ID == measurement.ID"
+                              }
+                            ],
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                return _vm.saveEditMeasurement(measurement)
+                              }
+                            }
+                          },
+                          [
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "check", size: "lg" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: false,
+                                expression: "false"
+                              }
+                            ],
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.cleanEditObject()
+                              }
+                            }
+                          },
+                          [
+                            _c("font-awesome-icon", {
+                              attrs: { icon: "times", size: "lg" }
                             })
                           ],
                           1
@@ -16943,7 +17186,8 @@ var render = function() {
             value: _vm.currentPage == 3,
             expression: "currentPage == 3"
           }
-        ]
+        ],
+        staticClass: "report__container"
       },
       [
         _c("p", [_vm._v("Raport od dnia")]),
@@ -16980,6 +17224,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Poziom cukru")]),
         _vm._v(" "),
@@ -17118,6 +17364,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17134,10 +17420,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       dateFrom: "",
       measurements: "",
-      perPage: 3,
       currentPage: 1,
-      pageCount: 10,
-      totalPages: 0,
+      edit: {
+        ID: ""
+        // sugar_level: "",
+        // insulin_dose: "",
+        // hour_of_measurement: "",
+        // date_of_measurement: ""
+      },
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -17168,6 +17458,20 @@ __webpack_require__.r(__webpack_exports__);
     Datepicker: (vue2_datepicker__WEBPACK_IMPORTED_MODULE_3___default())
   },
   methods: {
+    cleanEditObject: function () {
+      // let self = this;
+      // console.log("clean", this.edit);
+
+      this.edit.ID = null;
+      // this.edit.ID_user = null;
+      // this.edit.date_of_measurement = null;
+      // this.edit.date_added = null;
+      // this.edit.hour_of_measurement = null;
+      // this.edit.insulin_dose = null;
+      // this.edit.sugar_level = null;
+
+      // this.edit.sugar_level = 33;
+    },
     getUserData: function () {
       let self = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/user").then(response => {
@@ -17215,8 +17519,10 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format("YYYY-MM-DD");
       //   return "DD-MM-YYYY";
     },
-    editMeasurement: function (ID) {
-      console.log(ID);
+    editMeasurement: function (m) {
+      // this.edit = m;
+      // Object.assign(this.edit, m);
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function (m) {
       if (confirm("Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " + m.sugar_level + "\nDawka insuliny: " + m.insulin_dose + "\nGodzina pomiaru: " + m.hour_of_measurement + "\nData pomiaru: " + m.date_of_measurement + "?")) {
@@ -17230,6 +17536,40 @@ __webpack_require__.r(__webpack_exports__);
           _router__WEBPACK_IMPORTED_MODULE_1__["default"].push("/");
         });
       }
+    },
+    td: function (m, mField, inputType) {
+      // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
+      // this.edit[mField] = m[mField];
+
+      return this.edit.ID == m.ID ? `<input type="${inputType}" v-model="${m[mField]}"/>` : `${m[mField]}`;
+    },
+    VModelTd: function (m, mField) {
+      return this.edit.ID == m.ID ? this.edit[mField] : m[mField];
+    },
+    saveEditMeasurement: function (m) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/measurementUpdate/", {
+        ID: m.ID,
+        sugar_level: m.sugar_level,
+        insulin_dose: m.insulin_dose,
+        date_of_measurement: m.date_of_measurement,
+        hour_of_measurement: m.hour_of_measurement
+        // ID: this.edit.ID,
+        // sugar_level: this.edit.sugar_level,
+        // insulin_dose: this.edit.insulin_dose,
+        // date_of_measurement: this.edit.date_of_measurement,
+        // hour_of_measurement: this.edit.hour_of_measurement
+      }).then(response => {
+        this.getAllMeasurements();
+        console.log(response);
+      }).then(response => {
+        // for (var member in this.edit) delete this.edit[member];
+        this.cleanEditObject();
+      }).then(response => {
+        this.currentPage = 2;
+      }).catch(errors => {
+        console.log(errors);
+        _router__WEBPACK_IMPORTED_MODULE_1__["default"].push("/");
+      });
     }
   },
   computed: {
@@ -35236,7 +35576,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\r\n", ""]);
+exports.push([module.i, "\nh3[data-v-263b7fce] {\r\n  font-size: 1.3em;\n}\ntd[data-v-263b7fce],\r\nth[data-v-263b7fce] {\r\n  vertical-align: baseline;\r\n  padding: 0.25em;\n}\nform[data-v-263b7fce] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  flex-basis: 200px;\r\n  padding-top: 20px;\n}\n.containerForm[data-v-263b7fce] {\r\n  width: 200px;\n}\ninput[data-v-263b7fce],\r\n.mx-datepicker[data-v-263b7fce] {\r\n  width: 100% !important;\n}\n.btn__saveMeasurement[data-v-263b7fce] {\r\n  margin-top: 20px;\n}\n.confirm[data-v-263b7fce] {\r\n  width: 200px;\n}\n.tdEnd[data-v-263b7fce] {\r\n  text-align: end;\n}\n.report__container[data-v-263b7fce] {\r\n  width: 200px;\n}\r\n", ""]);
 
 // exports
 
@@ -61196,7 +61536,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\nbody {\r\n  margin: 20px !important;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\r\n", ""]);
 
 // exports
 

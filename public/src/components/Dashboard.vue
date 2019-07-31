@@ -6,8 +6,8 @@
       <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
       <button class="btn btn-secondary" @click="currentPage = 3">Raport</button>
     </div>
-    <div v-show="currentPage == 1">
-      <div class="input-group mb-3">
+    <div class="containerForm" v-show="currentPage == 1">
+      <form class="input-group mb-3">
         <input
           type="number"
           class="form-control"
@@ -37,11 +37,11 @@
           value-type="format"
         ></datepicker>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary btn__saveMeasurement"
           :disabled="$v.$invalid"
           @click="saveMeasurement()"
         >Zapisz odczyt</button>
-      </div>
+      </form>
       <!-- <pre>{{$v}}</pre> -->
     </div>
 
@@ -51,7 +51,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <!-- <th scope="col">ID</th> -->
+            <th scope="col">ID</th>
             <th scope="col">Poziom cukru</th>
             <th scope="col">Dawka insuliny</th>
             <th scope="col">Godzina pomiaru</th>
@@ -62,31 +62,71 @@
         <tbody>
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
-            <!-- <td>{{measurement.ID}}</td> -->
-            <td>{{measurement.sugar_level}}</td>
-            <td>{{measurement.insulin_dose}}</td>
-            <td>{{measurement.hour_of_measurement}}</td>
-            <td>{{measurement.date_of_measurement}}</td>
+            <td>{{measurement.ID}}</td>
             <td>
-              <div class="btn btn-primary">
-                <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement.ID)" />
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.sugar_level"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.sugar_level}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.insulin_dose"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.insulin_dose}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.hour_of_measurement"
+                type="number"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.hour_of_measurement}}</span>
+            </td>
+            <td>
+              <input
+                v-if="edit.ID == measurement.ID"
+                v-model="measurement.date_of_measurement"
+                type="text"
+              />
+              <span v-if="edit.ID != measurement.ID">{{measurement.date_of_measurement}}</span>
+            </td>
+            <td class="tdEnd">
+              <div v-show="edit.ID !=measurement.ID && edit.ID !=null" class="btn">
+                &nbsp;
+                <font-awesome-icon icon size="lg" />
               </div>
-              <div class="btn btn-danger">
+              <div v-show="!edit.ID" class="btn btn-primary" @click="editMeasurement(measurement)">
+                <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
+              </div>
+              <div v-show="!edit.ID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
                 <font-awesome-icon
                   icon="trash-alt"
                   size="lg"
                   @click="deleteMeasurement(measurement)"
                 />
               </div>
-              <!-- <div class="btn btn-primary">
-                <font-awesome-icon icon="check" size="lg"@click="editMeasurement(measurement.ID)" />
-              </div>-->
+
+              <div
+                v-show="edit.ID == measurement.ID"
+                class="btn btn-success"
+                @click="saveEditMeasurement(measurement)"
+              >
+                <font-awesome-icon icon="check" size="lg" />
+              </div>
+              <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
+                <font-awesome-icon icon="times" size="lg" />
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div v-show="currentPage == 3">
+    <div v-show="currentPage == 3" class="report__container">
       <p>Raport od dnia</p>
       <datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></datepicker>
       <a :href="urlReport" target="_blanc" class="btn btn-primary">Generuj</a>
@@ -110,10 +150,14 @@ export default {
       },
       dateFrom: "",
       measurements: "",
-      perPage: 3,
       currentPage: 1,
-      pageCount: 10,
-      totalPages: 0,
+      edit: {
+        ID: ""
+        // sugar_level: "",
+        // insulin_dose: "",
+        // hour_of_measurement: "",
+        // date_of_measurement: ""
+      },
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -144,6 +188,20 @@ export default {
     Datepicker
   },
   methods: {
+    cleanEditObject: function() {
+      // let self = this;
+      // console.log("clean", this.edit);
+
+      this.edit.ID = null;
+      // this.edit.ID_user = null;
+      // this.edit.date_of_measurement = null;
+      // this.edit.date_added = null;
+      // this.edit.hour_of_measurement = null;
+      // this.edit.insulin_dose = null;
+      // this.edit.sugar_level = null;
+
+      // this.edit.sugar_level = 33;
+    },
     getUserData: function() {
       let self = this;
       axios
@@ -203,8 +261,10 @@ export default {
       return moment(date).format("YYYY-MM-DD");
       //   return "DD-MM-YYYY";
     },
-    editMeasurement: function(ID) {
-      console.log(ID);
+    editMeasurement: function(m) {
+      // this.edit = m;
+      // Object.assign(this.edit, m);
+      this.edit.ID = m.ID;
     },
     deleteMeasurement: function(m) {
       if (
@@ -234,6 +294,47 @@ export default {
             router.push("/");
           });
       }
+    },
+    td: function(m, mField, inputType) {
+      // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
+      // this.edit[mField] = m[mField];
+
+      return this.edit.ID == m.ID
+        ? `<input type="${inputType}" v-model="${m[mField]}"/>`
+        : `${m[mField]}`;
+    },
+    VModelTd: function(m, mField) {
+      return this.edit.ID == m.ID ? this.edit[mField] : m[mField];
+    },
+    saveEditMeasurement: function(m) {
+      axios
+        .patch("/measurementUpdate/", {
+          ID: m.ID,
+          sugar_level: m.sugar_level,
+          insulin_dose: m.insulin_dose,
+          date_of_measurement: m.date_of_measurement,
+          hour_of_measurement: m.hour_of_measurement
+          // ID: this.edit.ID,
+          // sugar_level: this.edit.sugar_level,
+          // insulin_dose: this.edit.insulin_dose,
+          // date_of_measurement: this.edit.date_of_measurement,
+          // hour_of_measurement: this.edit.hour_of_measurement
+        })
+        .then(response => {
+          this.getAllMeasurements();
+          console.log(response);
+        })
+        .then(response => {
+          // for (var member in this.edit) delete this.edit[member];
+          this.cleanEditObject();
+        })
+        .then(response => {
+          this.currentPage = 2;
+        })
+        .catch(errors => {
+          console.log(errors);
+          router.push("/");
+        });
     }
   },
   computed: {
@@ -270,12 +371,37 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  font-size: 1.3em;
+}
 td,
 th {
   vertical-align: baseline;
   padding: 0.25em;
 }
+form {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  padding-top: 20px;
+}
+.containerForm {
+  width: 200px;
+}
+input,
+.mx-datepicker {
+  width: 100% !important;
+}
+.btn__saveMeasurement {
+  margin-top: 20px;
+}
 .confirm {
+  width: 200px;
+}
+.tdEnd {
+  text-align: end;
+}
+.report__container {
   width: 200px;
 }
 </style>
