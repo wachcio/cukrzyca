@@ -363,7 +363,7 @@ export default {
     this.getUserData();
     // let date = new Date();
     this.dateFrom = moment()
-      .subtract(7, "days")
+      .subtract(6, "days")
       .format("YYYY-MM-DD");
     this.formAdd.date_of_measurement = moment().format("YYYY-MM-DD");
   }
