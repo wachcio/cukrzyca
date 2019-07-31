@@ -17595,7 +17595,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted() {
     this.getUserData();
     // let date = new Date();
-    this.dateFrom = moment__WEBPACK_IMPORTED_MODULE_2___default()().subtract(7, "days").format("YYYY-MM-DD");
+    this.dateFrom = moment__WEBPACK_IMPORTED_MODULE_2___default()().subtract(6, "days").format("YYYY-MM-DD");
     this.formAdd.date_of_measurement = moment__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
   }
 });
