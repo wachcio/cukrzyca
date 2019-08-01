@@ -9,9 +9,10 @@
         <label for="password">Hasło</label>
         <input type="password" class="form-control" id="password" name="password" />
       </div>
+      <div class="alert alert-danger" role="alert" v-if="error.error">{{error.message}}</div>
+
       <input class="btn btn-primary" type="submit" value="Login" />
     </form>
-    <button class="btn btn-primary" @click="$emit('changeLoginData', true)">Coś</button>
   </div>
 </template>
 
@@ -23,7 +24,12 @@ export default {
   name: "Login",
   props: { loginApp: Object },
   data() {
-    return {};
+    return {
+      error: {
+        message: "",
+        error: false
+      }
+    };
   },
   components: {},
   methods: {
@@ -31,7 +37,6 @@ export default {
       e.preventDefault();
       // console.log("this", this);
 
-      this.$emit("changeLoginData", e.target.elements.login.value);
       let login2 = e.target.elements.login.value;
       let password = e.target.elements.password.value;
       let login = () => {
@@ -42,12 +47,18 @@ export default {
         axios
           .post("/login", data)
           .then(response => {
-            console.log("Logged in");
+            // console.log("Logged in");
+            this.error.error = false;
+            this.error.message = "";
+            this.$router.app.$emit("changeLoginData", e.target.elements);
+            console.log(response);
+
             router.push("/dashboard");
           })
           .catch(errors => {
             // console.log(errors);
-
+            this.error.error = true;
+            this.error.message = "Złe hasło lub login";
             console.log("Cannot log in");
           });
       };

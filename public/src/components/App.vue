@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <div class="btn-group" role="group">
-      <router-link :to="{ name: 'Dashboard'}" class="btn btn-secondary">Panel użytkownika</router-link>
+      <router-link :to="{ name: 'Dashboard'}" class="btn btn-secondary">{{dashboardTitle}}</router-link>
       <router-link
+        v-if="!login.online"
         :to="{ name: 'Login'}"
         class="btn btn-secondary"
         :loginApp="login"
-        @changeLoginData="changeLoginData"
       >Login</router-link>
-      <a href="#" @click="logout" class="btn btn-secondary">Logout</a>
+      <a href="#" v-if="login.online" @click="logout" class="btn btn-secondary">Logout</a>
     </div>
     <router-view />
   </div>
@@ -27,49 +27,69 @@ export default {
     return {
       login: {
         login: "",
-        password: "",
         online: false,
         urlLogin: "/login",
-        userOnline: {}
+        name: ""
       }
     };
   },
   components: {},
+  computed: {
+    dashboardTitle: function() {
+      return this.login.online
+        ? `Panel użytkownika - ${this.login.login}`
+        : `Panel użytkownika`;
+    }
+  },
   methods: {
     logout: function(e) {
-      axios.get("/logout").then(() => {
-        router.push("/");
-      });
-    },
-    onSubmit(e) {
       axios
-        .post(this.login.urlLogin, {
-          login: this.login.login,
-          password: this.login.password
+        .get("/logout")
+        .then(() => {
+          router.push("/");
         })
-        .then(res => {
-          this.login.online = true;
-          this.login.userOnline = res.data;
-          this.$session.start();
-          console.log("sesja", this.$session.getAll());
-
-          for (const prop in res.data) {
-            console.log(res.data[prop]);
-
-            this.$cookies.set(prop, res.data[prop]);
-          }
-          console.log("ciastka", this.$cookies.keys());
-
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
+        .then(() => {
+          this.login.login = "";
+          this.login.name = "";
+          this.login.online = false;
         });
-    },
-    changeLoginData: function(payload) {
-      console.log(payload);
-      this.login.login = payload;
     }
+    // onSubmit(e) {
+    //   axios
+    //     .post(this.login.urlLogin, {
+    //       login: this.login.login,
+    //       password: this.login.password
+    //     })
+    //     .then(res => {
+    //       this.login.online = true;
+    //       this.login.userOnline = res.data;
+    //       this.$session.start();
+    //       console.log("sesja", this.$session.getAll());
+
+    //       for (const prop in res.data) {
+    //         console.log(res.data[prop]);
+
+    //         this.$cookies.set(prop, res.data[prop]);
+    //       }
+    //       console.log("ciastka", this.$cookies.keys());
+
+    //       console.log(res);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
+    // changeLoginData: function(payload) {
+    //   console.log(payload);
+    //   this.login.login = payload;
+    // }
+  },
+  mounted() {
+    this.$router.app.$on("changeLoginData", payload => {
+      this.login.login = payload.login.value;
+      // this.login.password = payload.password.value;
+      this.login.online = true;
+    });
   }
 };
 </script>
