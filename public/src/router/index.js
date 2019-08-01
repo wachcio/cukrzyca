@@ -1,4 +1,4 @@
-import Vue from "../vue";
+import Vue from "vue";
 import Router from "vue-router";
 import Login from "../components/Login.vue";
 import Dashboard from "../components/Dashboard.vue";

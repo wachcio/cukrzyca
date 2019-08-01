@@ -10,7 +10,8 @@ module.exports = {
    },
    resolve: {
       alias: {
-         vue: "./vue.js"
+         vue: "vue/dist/vue.js",
+         vue$: "vue/dist/vue.esm.js"
       }
    },
    module: {
