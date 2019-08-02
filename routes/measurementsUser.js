@@ -64,7 +64,10 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
    var query =
       "SELECT * FROM `measurements` WHERE `ID_user`=" +
       userId +
-      " ORDER BY `date_of_measurement` DESC";
+      " ORDER BY `date_of_measurement` DESC, `hour_of_measurement` DESC";
+
+   console.log(query);
+
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
    var dateTmp = moment(new Date(dateFrom));
@@ -83,7 +86,7 @@ router.get("/:userId/:report?/:dateFrom?", function(req, res, next) {
          dateTmp = moment(dateTmp).add(1, "d");
       }
 
-      // console.log(query);
+      console.log(query);
    }
 
    var connection = mysql.createConnection({

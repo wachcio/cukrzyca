@@ -7,23 +7,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
    state: {
       user: {
-         name: ""
-      },
-      login: {
          login: "",
          online: false,
          name: ""
       },
-      dateFrom: "",
-      measurements: "",
-      currentPage: 1,
-      edit: {
-         ID: ""
-         // sugar_level: "",
-         // insulin_dose: "",
-         // hour_of_measurement: "",
-         // date_of_measurement: ""
-      }
+      measurements: ""
    },
    getters: {
       measurements: state => {

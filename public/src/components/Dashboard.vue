@@ -51,7 +51,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">ID</th>
+            <!-- <th scope="col">ID</th> -->
             <th scope="col">Poziom cukru</th>
             <th scope="col">Dawka insuliny</th>
             <th scope="col">Godzina pomiaru</th>
@@ -62,7 +62,7 @@
         <tbody>
           <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
             <th scope="row">{{index+1}}</th>
-            <td>{{measurement.ID}}</td>
+            <!-- <td>{{measurement.ID}}</td> -->
             <td>
               <input
                 v-if="edit.ID == measurement.ID"
@@ -144,6 +144,7 @@ import router from "../router";
 import moment from "moment";
 import Datepicker from "vue2-datepicker";
 import { required, minLength, between } from "vuelidate/lib/validators";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -192,6 +193,8 @@ export default {
     Datepicker
   },
   methods: {
+    // ...mapActions(),
+    ...mapMutations(["updateMeasurement", "fillMeasurements"]),
     updateMeasurement(e, fieldName, ID) {
       // updateMeasurement($event, 'date_of_measurement', measurement.ID)
       this.$store.commit("updateMeasurement", {
@@ -356,6 +359,8 @@ export default {
     }
   },
   computed: {
+    ...mapState(["measurements"]),
+    // ...mapGetters(),
     urlReport: function() {
       let date = `${moment().get("day")}-${moment().get(
         "month"
@@ -374,9 +379,6 @@ export default {
     },
     pages() {
       this.totalPages = this.rows / this.perPage;
-    },
-    measurements() {
-      return this.$store.getters.measurements;
     }
   },
 
