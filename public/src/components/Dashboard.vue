@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Panel użytkownika {{ user.name }}</h3>
+    <!-- <h3>Panel użytkownika {{ user.name }}</h3> -->
     <div class="btn-group" role="group">
       <button class="btn btn-secondary" @click="currentPage = 1">Dodaj odczyt</button>
       <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
@@ -65,49 +65,49 @@
             <!-- <td>{{measurement.ID}}</td> -->
             <td>
               <input
-                v-if="edit.ID == measurement.ID"
+                v-if="editID == measurement.ID"
                 :value="measurement.sugar_level"
                 @change="updateMeasurement($event, 'sugar_level', measurement.ID)"
                 type="number"
               />
-              <span v-if="edit.ID != measurement.ID">{{measurement.sugar_level}}</span>
+              <span v-if="editID != measurement.ID">{{measurement.sugar_level}}</span>
             </td>
             <td>
               <input
-                v-if="edit.ID == measurement.ID"
+                v-if="editID == measurement.ID"
                 :value="measurement.insulin_dose"
                 @change="updateMeasurement($event, 'insulin_dose', measurement.ID)"
                 type="number"
               />
-              <span v-if="edit.ID != measurement.ID">{{measurement.insulin_dose}}</span>
+              <span v-if="editID != measurement.ID">{{measurement.insulin_dose}}</span>
             </td>
             <td>
               <input
-                v-if="edit.ID == measurement.ID"
+                v-if="editID == measurement.ID"
                 :value="measurement.hour_of_measurement"
                 @change="updateMeasurement($event, 'hour_of_measurement', measurement.ID)"
                 type="number"
               />
-              <span v-if="edit.ID != measurement.ID">{{measurement.hour_of_measurement}}</span>
+              <span v-if="editID != measurement.ID">{{measurement.hour_of_measurement}}</span>
             </td>
             <td>
               <input
-                v-if="edit.ID == measurement.ID"
+                v-if="editID == measurement.ID"
                 :value="measurement.date_of_measurement"
                 @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
                 type="text"
               />
-              <span v-if="edit.ID != measurement.ID">{{measurement.date_of_measurement}}</span>
+              <span v-if="editID != measurement.ID">{{measurement.date_of_measurement}}</span>
             </td>
             <td class="tdEnd">
-              <div v-show="edit.ID !=measurement.ID && edit.ID !=null" class="btn">
+              <div v-show="editID !=measurement.ID && editID !=null" class="btn">
                 &nbsp;
                 <font-awesome-icon icon size="lg" />
               </div>
-              <div v-show="!edit.ID" class="btn btn-primary" @click="editMeasurement(measurement)">
+              <div v-show="!editID" class="btn btn-primary" @click="editMeasurement(measurement)">
                 <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
               </div>
-              <div v-show="!edit.ID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
+              <div v-show="!editID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
                 <font-awesome-icon
                   icon="trash-alt"
                   size="lg"
@@ -116,7 +116,7 @@
               </div>
 
               <div
-                v-show="edit.ID == measurement.ID"
+                v-show="editID == measurement.ID"
                 class="btn btn-success"
                 @click="saveEditMeasurement(measurement)"
               >
@@ -150,19 +150,13 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      user: {
-        name: ""
-      },
+      // user: {
+      //   name: ""
+      // },
       dateFrom: "",
       // measurements: "",
       currentPage: 1,
-      edit: {
-        ID: ""
-        // sugar_level: "",
-        // insulin_dose: "",
-        // hour_of_measurement: "",
-        // date_of_measurement: ""
-      },
+      editID: "",
       formAdd: {
         sugar_level: "",
         insulin_dose: "",
@@ -194,17 +188,22 @@ export default {
   },
   methods: {
     // ...mapActions(),
-    ...mapMutations(["updateMeasurement", "fillMeasurements"]),
+    ...mapMutations([
+      "updateMeasurementV",
+      "fillMeasurementsV",
+      "fillUserDataV",
+      "logoutV"
+    ]),
     updateMeasurement(e, fieldName, ID) {
       // updateMeasurement($event, 'date_of_measurement', measurement.ID)
-      this.$store.commit("updateMeasurement", {
+      this.updateMeasurementV({
         value: e.target.value,
         fieldName,
         ID
       });
     },
     fillMeasurements(value) {
-      this.$store.commit("fillMeasurements", {
+      this.fillMeasurementsV({
         value
       });
     },
@@ -212,8 +211,8 @@ export default {
       // let self = this;
       // console.log("clean", this.edit);
 
-      this.edit.ID = null;
-      // this.edit.ID_user = null;
+      this.editID = null;
+      // this.editID_user = null;
       // this.edit.date_of_measurement = null;
       // this.edit.date_added = null;
       // this.edit.hour_of_measurement = null;
@@ -227,12 +226,11 @@ export default {
       axios
         .get("/user")
         .then(response => {
-          //   console.log(response);
-          self.$set(this, "user", response.data.user);
-          //   this.formAdd.ID = response.data.user;
+          // console.log("response.data.user", response.data.user);
+          self.fillUserDataV(response.data.user);
         })
         .then(response => {
-          this.getAllMeasurements();
+          self.getAllMeasurements();
         })
         .catch(errors => {
           console.log(errors);
@@ -285,7 +283,7 @@ export default {
     editMeasurement: function(m) {
       // this.edit = m;
       // Object.assign(this.edit, m);
-      this.edit.ID = m.ID;
+      this.editID = m.ID;
     },
     deleteMeasurement: function(m) {
       if (
@@ -316,17 +314,17 @@ export default {
           });
       }
     },
-    td: function(m, mField, inputType) {
-      // edit.ID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
-      // this.edit[mField] = m[mField];
+    // td: function(m, mField, inputType) {
+    //   // editID == measurement.ID ? "edycja" : {{measurement.sugar_level}}
+    //   // this.edit[mField] = m[mField];
 
-      return this.edit.ID == m.ID
-        ? `<input type="${inputType}" v-model="${m[mField]}"/>`
-        : `${m[mField]}`;
-    },
-    VModelTd: function(m, mField) {
-      return this.edit.ID == m.ID ? this.edit[mField] : m[mField];
-    },
+    //   return this.editID == m.ID
+    //     ? `<input type="${inputType}" v-model="${m[mField]}"/>`
+    //     : `${m[mField]}`;
+    // },
+    // VModelTd: function(m, mField) {
+    //   return this.editID == m.ID ? this.edit[mField] : m[mField];
+    // },
     saveEditMeasurement: function(m) {
       axios
         .patch("/measurementUpdate/", {
@@ -335,18 +333,12 @@ export default {
           insulin_dose: m.insulin_dose,
           date_of_measurement: m.date_of_measurement,
           hour_of_measurement: m.hour_of_measurement
-          // ID: this.edit.ID,
-          // sugar_level: this.edit.sugar_level,
-          // insulin_dose: this.edit.insulin_dose,
-          // date_of_measurement: this.edit.date_of_measurement,
-          // hour_of_measurement: this.edit.hour_of_measurement
         })
         .then(response => {
           this.getAllMeasurements();
           console.log(response);
         })
         .then(response => {
-          // for (var member in this.edit) delete this.edit[member];
           this.cleanEditObject();
         })
         .then(response => {
@@ -359,7 +351,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["measurements"]),
+    ...mapState(["measurements", "user"]),
     // ...mapGetters(),
     urlReport: function() {
       let date = `${moment().get("day")}-${moment().get(

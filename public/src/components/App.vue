@@ -2,13 +2,8 @@
   <div id="app">
     <div class="btn-group" role="group">
       <router-link :to="{ name: 'Dashboard'}" class="btn btn-secondary">{{dashboardTitle}}</router-link>
-      <router-link
-        v-if="!login.online"
-        :to="{ name: 'Login'}"
-        class="btn btn-secondary"
-        :loginApp="login"
-      >Login</router-link>
-      <a href="#" v-if="login.online" @click="logout" class="btn btn-secondary">Logout</a>
+      <router-link v-if="!user.online" :to="{ name: 'Login'}" class="btn btn-secondary">Login</router-link>
+      <a href="#" v-if="user.online" @click="logout" class="btn btn-secondary">Logout</a>
     </div>
     <router-view />
   </div>
@@ -21,27 +16,38 @@ import router from "../router";
 
 import cookieSession from "cookie-session";
 
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+
 export default {
   name: "app",
   data() {
     return {
-      login: {
-        login: "",
-        online: false,
-        urlLogin: "/login",
-        name: ""
-      }
+      // login: {
+      //   login: "",
+      //   online: false,
+      //   urlLogin: "/login",
+      //   name: ""
+      // }
     };
   },
   components: {},
   computed: {
+    ...mapState(["measurements", "user"]),
+    // ...mapGetters(),
     dashboardTitle: function() {
-      return this.login.online
-        ? `Panel użytkownika - ${this.login.login}`
+      return this.user.online
+        ? `Panel użytkownika - ${this.user.name}`
         : `Panel użytkownika `;
     }
   },
   methods: {
+    // ...mapActions(),
+    ...mapMutations([
+      "updateMeasurementV",
+      "fillMeasurementsV",
+      "fillUserDataV",
+      "logoutV"
+    ]),
     logout: function(e) {
       axios
         .get("/logout")
@@ -49,9 +55,11 @@ export default {
           router.push("/");
         })
         .then(() => {
-          this.login.login = "";
-          this.login.name = "";
-          this.login.online = false;
+          this.logoutV();
+          // this.user.online = false;
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
     // onSubmit(e) {
@@ -85,11 +93,11 @@ export default {
     // }
   },
   mounted() {
-    this.$router.app.$on("changeLoginData", payload => {
-      this.login.login = payload.login.value;
-      // this.login.password = payload.password.value;
-      this.login.online = true;
-    });
+    // this.$router.app.$on("changeLoginData", payload => {
+    // this.login.login = payload.login.value;
+    // this.login.password = payload.password.value;
+    // this.login.online = true;
+    // });
   }
 };
 </script>

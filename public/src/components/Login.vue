@@ -20,6 +20,8 @@
 import axios from "axios";
 import router from "../router";
 
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+
 export default {
   name: "Login",
   props: { loginApp: Object },
@@ -33,6 +35,12 @@ export default {
   },
   components: {},
   methods: {
+    // ...mapActions(),
+    ...mapMutations([
+      "updateMeasurementV",
+      "fillMeasurementsV",
+      "fillUserDataV"
+    ]),
     loginHandle: function(e) {
       e.preventDefault();
       // console.log("this", this);
@@ -50,13 +58,12 @@ export default {
             // console.log("Logged in");
             this.error.error = false;
             this.error.message = "";
-            this.$router.app.$emit("changeLoginData", e.target.elements);
-            console.log(response);
 
+            console.log("res User", e.target.elements);
             router.push("/dashboard");
           })
           .catch(errors => {
-            // console.log(errors);
+            console.log(errors);
             this.error.error = true;
             this.error.message = "Złe hasło lub login";
             console.log("Cannot log in");
@@ -65,7 +72,10 @@ export default {
       login();
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(["measurements"])
+    // ...mapGetters(),
+  },
   created() {},
   watch: {}
 };
