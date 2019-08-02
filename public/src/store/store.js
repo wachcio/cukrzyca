@@ -9,7 +9,13 @@ export default new Vuex.Store({
       user: {
          online: false
       },
-      measurements: ""
+      measurements: "",
+      mutationsArray: [
+         "updateMeasurementV",
+         "fillMeasurementsV",
+         "fillUserDataV",
+         "logoutV"
+      ]
    },
    getters: {
       measurements: state => {

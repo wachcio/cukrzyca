@@ -91,12 +91,20 @@
               <span v-if="editID != measurement.ID">{{measurement.hour_of_measurement}}</span>
             </td>
             <td>
-              <input
+              <!-- <input
                 v-if="editID == measurement.ID"
                 :value="measurement.date_of_measurement"
                 @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
                 type="text"
-              />
+              />-->
+              <datepicker
+                v-if="editID == measurement.ID"
+                :value="measurement.date_of_measurement"
+                format="YYYY-MM-DD"
+                lang="en"
+                value-type="format"
+                @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
+              ></datepicker>
               <span v-if="editID != measurement.ID">{{measurement.date_of_measurement}}</span>
             </td>
             <td class="tdEnd">
@@ -195,12 +203,22 @@ export default {
       "logoutV"
     ]),
     updateMeasurement(e, fieldName, ID) {
-      // updateMeasurement($event, 'date_of_measurement', measurement.ID)
-      this.updateMeasurementV({
-        value: e.target.value,
-        fieldName,
-        ID
-      });
+      // updateMeasurement($event, "date_of_measurement", measurement.ID);
+      // console.log(fieldName, e);
+
+      if (fieldName == "date_of_measurement") {
+        this.updateMeasurementV({
+          value: e,
+          fieldName,
+          ID
+        });
+      } else {
+        this.updateMeasurementV({
+          value: e.target.value,
+          fieldName,
+          ID
+        });
+      }
     },
     fillMeasurements(value) {
       this.fillMeasurementsV({
