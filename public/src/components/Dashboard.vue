@@ -66,7 +66,8 @@
             <td>
               <input
                 v-if="edit.ID == measurement.ID"
-                v-model="measurement.sugar_level"
+                :value="measurement.sugar_level"
+                @change="updateMeasurement($event, 'sugar_level', measurement.ID)"
                 type="number"
               />
               <span v-if="edit.ID != measurement.ID">{{measurement.sugar_level}}</span>
@@ -74,7 +75,8 @@
             <td>
               <input
                 v-if="edit.ID == measurement.ID"
-                v-model="measurement.insulin_dose"
+                :value="measurement.insulin_dose"
+                @change="updateMeasurement($event, 'insulin_dose', measurement.ID)"
                 type="number"
               />
               <span v-if="edit.ID != measurement.ID">{{measurement.insulin_dose}}</span>
@@ -82,7 +84,8 @@
             <td>
               <input
                 v-if="edit.ID == measurement.ID"
-                v-model="measurement.hour_of_measurement"
+                :value="measurement.hour_of_measurement"
+                @change="updateMeasurement($event, 'hour_of_measurement', measurement.ID)"
                 type="number"
               />
               <span v-if="edit.ID != measurement.ID">{{measurement.hour_of_measurement}}</span>
@@ -90,7 +93,8 @@
             <td>
               <input
                 v-if="edit.ID == measurement.ID"
-                v-model="measurement.date_of_measurement"
+                :value="measurement.date_of_measurement"
+                @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
                 type="text"
               />
               <span v-if="edit.ID != measurement.ID">{{measurement.date_of_measurement}}</span>
@@ -149,7 +153,7 @@ export default {
         name: ""
       },
       dateFrom: "",
-      measurements: "",
+      // measurements: "",
       currentPage: 1,
       edit: {
         ID: ""
@@ -188,6 +192,19 @@ export default {
     Datepicker
   },
   methods: {
+    updateMeasurement(e, fieldName, ID) {
+      // updateMeasurement($event, 'date_of_measurement', measurement.ID)
+      this.$store.commit("updateMeasurement", {
+        value: e.target.value,
+        fieldName,
+        ID
+      });
+    },
+    fillMeasurements(value) {
+      this.$store.commit("fillMeasurements", {
+        value
+      });
+    },
     cleanEditObject: function() {
       // let self = this;
       // console.log("clean", this.edit);
@@ -225,7 +242,8 @@ export default {
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
           //   console.log(response);
-          self.$set(this, "measurements", response.data);
+          // self.$set(this, "measurements", response.data);
+          self.fillMeasurements(response.data);
         })
         .then(response => {
           this.pages;
@@ -356,6 +374,9 @@ export default {
     },
     pages() {
       this.totalPages = this.rows / this.perPage;
+    },
+    measurements() {
+      return this.$store.getters.measurements;
     }
   },
 

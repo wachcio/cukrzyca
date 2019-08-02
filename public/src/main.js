@@ -1,6 +1,7 @@
 "use strict";
 
 import Vue from "vue";
+import store from "./store/store";
 // import "./plugins/bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./components/App.vue";
@@ -30,6 +31,7 @@ Vue.use(require("vue-cookies"));
 new Vue({
    el: "app",
    router,
+   store,
    components: { App },
    methods: {}
 });
