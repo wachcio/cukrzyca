@@ -38,7 +38,7 @@ export default {
     dashboardTitle: function() {
       return this.login.online
         ? `Panel użytkownika - ${this.login.login}`
-        : `Panel użytkownika`;
+        : `Panel użytkownika `;
     }
   },
   methods: {
