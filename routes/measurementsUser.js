@@ -32,12 +32,20 @@ const writeResult = (rows, userId, dateFrom) => {
       for (let j = 0; j < rows[i].length; j++) {
          let h = rows[i][j].hour_of_measurement;
          if (i == 1) {
-            result[`h${h}y${i}`] = rows[i][j].sugar_level;
+            // result[`h${h}y${i}`] = rows[i][j].sugar_level;
+            rows[i][j].sugar_level != 0
+               ? (result[`h${h}y${i}`] = rows[i][j].sugar_level)
+               : null;
+            // result[`h${h}y${i}`] != 0 ? rows[i][j].sugar_level : null;
             rows[i][j].insulin_dose != 0
                ? (result[`h${h}y${i + 1}`] = rows[i][j].insulin_dose)
                : null;
          } else {
-            result[`h${h}y${i * 2 - 1}`] = rows[i][j].sugar_level;
+            // result[`h${h}y${i * 2 - 1}`] != 0 ? rows[i][j].sugar_level : null;
+            // result[`h${h}y${i * 2 - 1}`] = rows[i][j].sugar_level;
+            rows[i][j].sugar_level != 0
+               ? (result[`h${h}y${i * 2 - 1}`] = rows[i][j].sugar_level)
+               : null;
 
             rows[i][j].insulin_dose != 0
                ? (result[`h${h}y${i * 2}`] = rows[i][j].insulin_dose)

@@ -176,7 +176,6 @@ export default {
   validations: {
     formAdd: {
       sugar_level: {
-        required,
         between: between(10, 400)
       },
       insuli_dose: {

@@ -9,7 +9,6 @@ const checkParameters = par => {
    console.log(par);
 
    if (
-      !!par.sugar_level &&
       !!par.hour_of_measurement &&
       // !_.trim(par.date_of_birth_child) &&
       _.isNumber(Number(par.sugar_level)) &&
@@ -76,7 +75,6 @@ router.post("/", function(req, res, next) {
 
    if (
       checkParameters({
-         sugar_level,
          hour_of_measurement,
          date_of_measurement
       }) == false
