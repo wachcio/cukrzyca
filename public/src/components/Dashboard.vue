@@ -110,7 +110,7 @@
             <td class="tdEnd">
               <div v-show="editID !=measurement.ID && editID !=null" class="btn">
                 &nbsp;
-                <font-awesome-icon icon size="lg" />
+                <!-- <font-awesome-icon icon size="lg" /> -->
               </div>
               <div v-show="!editID" class="btn btn-primary" @click="editMeasurement(measurement)">
                 <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
@@ -438,3 +438,9 @@ input,
   width: 200px;
 }
 </style>
+<style>
+.mx-calendar-icon {
+  height: 24px !important;
+}
+</style>
+
