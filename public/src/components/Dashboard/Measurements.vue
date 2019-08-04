@@ -1,7 +1,11 @@
 <template>
   <div>
     <h3>Odczyty</h3>
-    <table class="table table-striped table-hover" v-if="measurements" id="measurementsTable">
+    <table
+      class="table table-striped table-hover"
+      v-if="measurements.length"
+      id="measurementsTable"
+    >
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -160,9 +164,11 @@ export default {
       axios
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
-          //   console.log(response);
-          // self.$set(this, "measurements", response.data);
-          self.fillMeasurements(response.data);
+          console.log(response.data);
+          self.$set(this, "measurements", response.data);
+          if (response.data.error) {
+            self.fillMeasurements({});
+          } else self.fillMeasurements(response.data);
         })
         .then(response => {
           this.pages;

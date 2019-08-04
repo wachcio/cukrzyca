@@ -65,43 +65,8 @@ export default {
           console.log(err);
         });
     }
-    // onSubmit(e) {
-    //   axios
-    //     .post(this.login.urlLogin, {
-    //       login: this.login.login,
-    //       password: this.login.password
-    //     })
-    //     .then(res => {
-    //       this.login.online = true;
-    //       this.login.userOnline = res.data;
-    //       this.$session.start();
-    //       console.log("sesja", this.$session.getAll());
-
-    //       for (const prop in res.data) {
-    //         console.log(res.data[prop]);
-
-    //         this.$cookies.set(prop, res.data[prop]);
-    //       }
-    //       console.log("ciastka", this.$cookies.keys());
-
-    //       console.log(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
-    // changeLoginData: function(payload) {
-    //   console.log(payload);
-    //   this.login.login = payload;
-    // }
   },
-  mounted() {
-    // this.$router.app.$on("changeLoginData", payload => {
-    // this.login.login = payload.login.value;
-    // this.login.password = payload.password.value;
-    // this.login.online = true;
-    // });
-  }
+  mounted() {}
 };
 </script>
 

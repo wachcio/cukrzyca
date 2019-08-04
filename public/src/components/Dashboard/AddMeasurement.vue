@@ -44,7 +44,7 @@
       <button
         class="btn btn-primary btn__saveMeasurement"
         :disabled="$v.$invalid"
-        @click="saveMeasurement()"
+        @click.prevent="saveMeasurement()"
       >Zapisz odczyt</button>
     </form>
   </div>
@@ -97,14 +97,21 @@ export default {
       "fillUserDataV",
       "logoutV"
     ]),
+    fillMeasurements(value) {
+      this.fillMeasurementsV({
+        value
+      });
+    },
     getAllMeasurements: function() {
       let self = this;
       axios
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
-          //   console.log(response);
-          // self.$set(this, "measurements", response.data);
-          self.fillMeasurements(response.data);
+          console.log(response.data);
+          self.$set(this, "measurements", response.data);
+          if (response.data.error) {
+            self.fillMeasurements({});
+          } else self.fillMeasurements(response.data);
         })
         // .then(response => {
         //   this.pages;

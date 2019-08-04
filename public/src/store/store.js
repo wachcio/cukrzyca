@@ -54,12 +54,12 @@ export default new Vuex.Store({
    mutations: {
       updateMeasurementV(state, payload) {
          const index = _.findIndex(state.measurements, ["ID", payload.ID]);
-         console.log("payload", payload);
-         console.log("ID", payload.ID);
+         // console.log("payload", payload);
+         // console.log("ID", payload.ID);
 
-         console.log("index", index);
+         // console.log("index", index);
 
-         console.log("stateIndex", state.measurements[index]);
+         // console.log("stateIndex", state.measurements[index]);
 
          state.measurements[index][payload.fieldName] = payload.value;
       },
@@ -67,7 +67,7 @@ export default new Vuex.Store({
          state.measurements = payload.value;
       },
       fillUserDataV(state, payload) {
-         console.log("payload", payload);
+         // console.log("payload", payload);
 
          state.user = payload;
          state.user.online = true;

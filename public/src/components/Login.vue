@@ -59,7 +59,7 @@ export default {
             this.error.error = false;
             this.error.message = "";
 
-            console.log("res User", e.target.elements);
+            // console.log("res User", e.target.elements);
             router.push({ name: "dashboardAddMeasurement" });
           })
           .catch(errors => {
