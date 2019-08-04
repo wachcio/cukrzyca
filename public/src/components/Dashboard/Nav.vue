@@ -8,7 +8,12 @@
       >Dodaj odczyt</router-link>
       <router-link class="btn btn-secondary" :to="{name:'measurements'}" exact>Odczyty</router-link>
       <router-link class="btn btn-secondary" :to="{name:'report'}" exact>Raport</router-link>
-      <router-link class="btn btn-secondary" :to="{name:'admin'}" exact v-if="user.is_admin">Admin</router-link>
+      <router-link
+        class="btn btn-secondary"
+        :to="{name:'adminAddUser'}"
+        exact
+        v-if="user.is_admin"
+      >Admin</router-link>
     </div>
     <router-view></router-view>
   </div>

@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h1>ADMIN</h1>
-  </div>
+  <h3>Dodaj</h3>
 </template>
 
 <script>
 export default {
-  name: "Admin",
+  name: "AdminAddUser",
   props: {},
   data() {
     return {};
