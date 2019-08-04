@@ -98,7 +98,7 @@ router.get("/:id/:report?/:date?", function(req, res, next) {
    if (!_.isNumber(Number(id))) res.json(badParameters("ID is not correct"));
 
    var query =
-      "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users` WHERE `ID`=" +
+      "SELECT `ID`, `first_name`, `last_name`, `name`, `login`,`date_of_birth_child`, `date_added` FROM `users` WHERE `ID`=" +
       id;
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";

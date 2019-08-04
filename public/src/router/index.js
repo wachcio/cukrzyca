@@ -7,7 +7,7 @@ import Measurements from "../components/Dashboard/Measurements.vue";
 import Report from "../components/Dashboard/Report.vue";
 import Admin from "../components/Dashboard/Admin/Home.vue";
 import AdminAddUser from "../components/Dashboard/Admin/AddUser.vue";
-import AdminDeleteUser from "../components/Dashboard/Admin/DeleteUser.vue";
+import AdminEditUser from "../components/Dashboard/Admin/EditUser.vue";
 
 Vue.use(Router);
 
@@ -49,9 +49,9 @@ export default new Router({
                      component: AdminAddUser
                   },
                   {
-                     path: "deleteUser",
-                     name: "adminDeleteUser",
-                     component: AdminDeleteUser
+                     path: "editUser",
+                     name: "adminEditUser",
+                     component: AdminEditUser
                   }
                ]
             }

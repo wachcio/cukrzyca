@@ -12,8 +12,8 @@ router.get("/", function(req, res, next) {
    let date_of_birth_child = req.query.date_of_birth_child;
    let date_added = req.query.date_added;
 
-   var query =
-      "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
+   var query = "SELECT * FROM `users`";
+   // "SELECT `ID`, `first_name`, `last_name`, `name`, `login`,`is_admin`, `date_of_birth_child`, `date_added` FROM `users`";
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
 
