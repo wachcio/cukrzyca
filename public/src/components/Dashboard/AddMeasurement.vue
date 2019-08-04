@@ -23,12 +23,7 @@
         v-model="formAdd.hour_of_measurement"
         @input="$v.formAdd.hour_of_measurement.$touch()"
       />
-      <Datepicker
-        v-model="formAdd.date_of_measurement"
-        format="YYYY-MM-DD"
-        lang="en"
-        value-type="format"
-      ></Datepicker>
+      <Datepicker v-model="formAdd.date_of_measurement" format="YYYY-MM-DD" lang="en"></Datepicker>
       <button
         class="btn btn-primary btn__saveMeasurement"
         :disabled="$v.$invalid"
@@ -61,7 +56,7 @@ export default {
   validations: {
     formAdd: {
       sugar_level: {
-        between: between(10, 400)
+        between: between(0, 400)
       },
       insuli_dose: {
         between: between(0, 400)
@@ -85,6 +80,23 @@ export default {
       "fillUserDataV",
       "logoutV"
     ]),
+    getAllMeasurements: function() {
+      let self = this;
+      axios
+        .get("/measurementsUser/" + this.user.ID)
+        .then(response => {
+          //   console.log(response);
+          // self.$set(this, "measurements", response.data);
+          self.fillMeasurements(response.data);
+        })
+        // .then(response => {
+        //   this.pages;
+        // })
+        .catch(errors => {
+          console.log(errors);
+          router.push("/");
+        });
+    },
     saveMeasurement: function() {
       let self = this;
       axios
@@ -97,11 +109,12 @@ export default {
         })
         .then(response => {
           this.getAllMeasurements();
-          console.log(response);
+          // console.log(response);
+          router.push("/dashboard/measurements");
         })
-        .then(response => {
-          this.currentPage = 2;
-        })
+        // .then(response => {
+
+        // })
         .catch(errors => {
           console.log(errors);
           router.push("/");

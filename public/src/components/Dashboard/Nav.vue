@@ -1,8 +1,15 @@
 <template>
-  <div class="btn-group" role="group">
-    <button class="btn btn-secondary" @click="currentPage = 1">Dodaj odczyt</button>
-    <button class="btn btn-secondary" @click="currentPage = 2">Odczyty</button>
-    <button class="btn btn-secondary" @click="currentPage = 3">Raport</button>
+  <div>
+    <div class="btn-group" role="group">
+      <router-link
+        class="btn btn-secondary"
+        :to="{name:'DashboardAddMeasurement'}"
+        exact
+      >Dodaj odczyt</router-link>
+      <router-link class="btn btn-secondary" :to="{name:'Measurements'}" exact>Odczyty</router-link>
+      <router-link class="btn btn-secondary" :to="{name:'Report'}" exact>Raport</router-link>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -1,9 +1,10 @@
 <template>
   <div>
     <Nav></Nav>
-    <AddMeasurement></AddMeasurement>
+
+    <!-- <AddMeasurement></AddMeasurement>
     <Measurements></Measurements>
-    <Report></Report>
+    <Report></Report>-->
   </div>
 </template>
 
