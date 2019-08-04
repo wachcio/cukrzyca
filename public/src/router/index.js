@@ -22,17 +22,17 @@ export default new Router({
          children: [
             {
                path: "addMeasurement",
-               name: "DashboardAddMeasurement",
+               name: "dashboardAddMeasurement",
                component: DashboardAddMeasurement
             },
             {
                path: "measurements",
-               name: "Measurements",
+               name: "measurements",
                component: Measurements
             },
             {
                path: "report",
-               name: "Report",
+               name: "report",
                component: Report
             }
          ]

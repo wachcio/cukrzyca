@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <div class="btn-group" role="group">
-      <router-link :to="{ name: 'Dashboard'}" class="btn btn-secondary">{{dashboardTitle}}</router-link>
+      <router-link
+        :to="{ name: 'dashboardAddMeasurement'}"
+        class="btn btn-secondary"
+      >{{dashboardTitle}}</router-link>
       <router-link v-if="!user.online" :to="{ name: 'Login'}" class="btn btn-secondary">Login</router-link>
       <a href="#" v-if="user.online" @click="logout" class="btn btn-secondary">Logout</a>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="report__container">
     <p>Raport od dnia</p>
-    <Datepicker v-model="dateFrom" format="YYYY-MM-DD" lang="en" value-type="format"></Datepicker>
+    <Datepicker v-model="dateFrom" format="YYYY-MM-DD" :lang="lang" value-type="format"></Datepicker>
     <a :href="urlReport" target="_blanc" class="btn btn-primary">Generuj</a>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
     ])
   },
   computed: {
-    ...mapState(["measurements", "user"]),
+    ...mapState(["measurements", "user", "lang"]),
     // ...mapGetters(),
 
     urlReport: function() {

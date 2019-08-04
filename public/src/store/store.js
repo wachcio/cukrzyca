@@ -10,12 +10,33 @@ export default new Vuex.Store({
          online: false
       },
       measurements: "",
-      mutationsArray: [
-         "updateMeasurementV",
-         "fillMeasurementsV",
-         "fillUserDataV",
-         "logoutV"
-      ]
+      lang: {
+         days: ["Nie", "Pon", "Wto", "Śro", "Czw", "Pią", "Sob"],
+         months: [
+            "Sty",
+            "Lut",
+            "Mar",
+            "Kwi",
+            "Maj",
+            "Cze",
+            "Lip",
+            "Sie",
+            "Wrz",
+            "Paź",
+            "Lis",
+            "Gru"
+         ],
+         pickers: [
+            "następne 7 dni",
+            "następne 30 dni",
+            "wcześniejsze 7 dni",
+            "wcześniejsze 7 dni"
+         ],
+         placeholder: {
+            date: "Wybierz datę",
+            dateRange: "Wybierz przedział dat"
+         }
+      }
    },
    getters: {
       measurements: state => {

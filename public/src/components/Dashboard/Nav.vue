@@ -3,11 +3,11 @@
     <div class="btn-group" role="group">
       <router-link
         class="btn btn-secondary"
-        :to="{name:'DashboardAddMeasurement'}"
+        :to="{name:'dashboardAddMeasurement'}"
         exact
       >Dodaj odczyt</router-link>
-      <router-link class="btn btn-secondary" :to="{name:'Measurements'}" exact>Odczyty</router-link>
-      <router-link class="btn btn-secondary" :to="{name:'Report'}" exact>Raport</router-link>
+      <router-link class="btn btn-secondary" :to="{name:'measurements'}" exact>Odczyty</router-link>
+      <router-link class="btn btn-secondary" :to="{name:'report'}" exact>Raport</router-link>
     </div>
     <router-view></router-view>
   </div>

@@ -108,6 +108,7 @@ export default {
   mounted() {
     this.getUserData();
     // let date = new Date();
+    if (this.user.online) router.push("/dashboard/addMeasurement");
   }
 };
 </script>

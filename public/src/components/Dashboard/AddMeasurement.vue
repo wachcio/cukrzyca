@@ -23,7 +23,7 @@
         v-model="formAdd.hour_of_measurement"
         @input="$v.formAdd.hour_of_measurement.$touch()"
       />
-      <Datepicker v-model="formAdd.date_of_measurement" format="YYYY-MM-DD" lang="en"></Datepicker>
+      <Datepicker v-model="formAdd.date_of_measurement" format="YYYY-MM-DD" :lang="lang"></Datepicker>
       <button
         class="btn btn-primary btn__saveMeasurement"
         :disabled="$v.$invalid"
@@ -108,13 +108,13 @@ export default {
           date_of_measurement: this.formAdd.date_of_measurement
         })
         .then(response => {
+          self.$router.push({ name: "measurements" });
+        })
+        .then(response => {
           this.getAllMeasurements();
           // console.log(response);
-          router.push("/dashboard/measurements");
         })
-        // .then(response => {
 
-        // })
         .catch(errors => {
           console.log(errors);
           router.push("/");
@@ -122,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["measurements", "user"])
+    ...mapState(["measurements", "user", "lang"])
   },
   created() {
     this.formAdd.date_of_measurement = moment().format("YYYY-MM-DD");
@@ -141,8 +141,8 @@ form {
 .containerForm {
   width: 200px;
 }
-input,
-.mx-Datepicker {
+.form-control,
+.mx-datepicker {
   width: 100% !important;
 }
 .btn__saveMeasurement {
