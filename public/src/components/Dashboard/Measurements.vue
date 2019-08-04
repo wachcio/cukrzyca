@@ -14,8 +14,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(measurement, index) in measurements" :key="measurement.ID">
-          <th scope="row">{{index+1}}</th>
+        <tr
+          v-for="(measurement, index) in measurements"
+          :key="measurement.ID"
+          @dblclick="editMeasurement(measurement)"
+        >
+          <th scope="row" @dblclick="editMeasurement(measurement)">{{index+1}}</th>
           <!-- <td>{{measurement.ID}}</td> -->
           <td>
             <input
@@ -257,5 +261,8 @@ td,
 th {
   vertical-align: baseline;
   padding: 0.25em;
+}
+.tdEnd {
+  text-align: end;
 }
 </style>
