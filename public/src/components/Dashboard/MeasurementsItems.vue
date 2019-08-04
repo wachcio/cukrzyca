@@ -57,10 +57,10 @@
           <!-- <font-awesome-icon icon size="lg" /> -->
         </div>
         <div v-show="!editID" class="btn btn-primary" @click="editMeasurement(measurement)">
-          <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
+          <font-awesome-icon icon="pen" size="lg" />
         </div>
         <div v-show="!editID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
-          <font-awesome-icon icon="trash-alt" size="lg" @click="deleteMeasurement(measurement)" />
+          <font-awesome-icon icon="trash-alt" size="lg" />
         </div>
 
         <div
@@ -70,9 +70,9 @@
         >
           <font-awesome-icon icon="check" size="lg" />
         </div>
-        <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
+        <!-- <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
           <font-awesome-icon icon="times" size="lg" />
-        </div>
+        </div>-->
       </td>
     </tr>
   </tbody>
@@ -220,9 +220,7 @@ export default {
         .then(response => {
           this.cleanEditObject();
         })
-        .then(response => {
-          this.currentPage = 2;
-        })
+
         .catch(errors => {
           console.log(errors);
           router.push("/");
