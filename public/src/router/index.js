@@ -5,6 +5,7 @@ import Dashboard from "../components/Dashboard/Main.vue";
 import DashboardAddMeasurement from "../components/Dashboard/AddMeasurement.vue";
 import Measurements from "../components/Dashboard/Measurements.vue";
 import Report from "../components/Dashboard/Report.vue";
+import Admin from "../components/Dashboard/Admin.vue";
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
                path: "report",
                name: "report",
                component: Report
+            },
+            {
+               path: "admin",
+               name: "admin",
+               component: Admin
             }
          ]
       }
