@@ -1,26 +1,81 @@
-<template>
-  <div>
-    <h3>Odczyty</h3>
-    <table
-      class="table table-striped table-hover"
-      v-if="measurements.length"
-      id="measurementsTable"
+<template >
+  <tbody>
+    <tr
+      v-for="(measurement, index) in measurements"
+      :key="measurement.ID"
+      @dblclick="editMeasurement(measurement)"
     >
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <!-- <th scope="col">ID</th> -->
-          <th scope="col">Poziom cukru</th>
-          <th scope="col">Dawka insuliny</th>
-          <th scope="col">Godzina pomiaru</th>
-          <th scope="col">Data pomiaru</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
+      <th scope="row" @dblclick="editMeasurement(measurement)">{{index+1}}</th>
+      <!-- <td>{{measurement.ID}}</td> -->
+      <td>
+        <input
+          v-if="editID == measurement.ID"
+          :value="measurement.sugar_level"
+          @change="updateMeasurement($event, 'sugar_level', measurement.ID)"
+          type="number"
+        />
+        <span v-if="editID != measurement.ID">{{measurement.sugar_level}}</span>
+      </td>
+      <td>
+        <input
+          v-if="editID == measurement.ID"
+          :value="measurement.insulin_dose"
+          @change="updateMeasurement($event, 'insulin_dose', measurement.ID)"
+          type="number"
+        />
+        <span v-if="editID != measurement.ID">{{measurement.insulin_dose}}</span>
+      </td>
+      <td>
+        <input
+          v-if="editID == measurement.ID"
+          :value="measurement.hour_of_measurement"
+          @change="updateMeasurement($event, 'hour_of_measurement', measurement.ID)"
+          type="number"
+        />
+        <span v-if="editID != measurement.ID">{{measurement.hour_of_measurement}}</span>
+      </td>
+      <td>
+        <!-- <input
+                v-if="editID == measurement.ID"
+                :value="measurement.date_of_measurement"
+                @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
+                type="text"
+        />-->
+        <Datepicker
+          v-if="editID == measurement.ID"
+          :value="measurement.date_of_measurement"
+          format="YYYY-MM-DD"
+          lang="en"
+          value-type="format"
+          @change="updateMeasurement($event, 'date_of_measurement', measurement.ID)"
+        ></Datepicker>
+        <span v-if="editID != measurement.ID">{{measurement.date_of_measurement}}</span>
+      </td>
+      <td class="tdEnd">
+        <div v-show="editID !=measurement.ID && editID !=null" class="btn">
+          &nbsp;
+          <!-- <font-awesome-icon icon size="lg" /> -->
+        </div>
+        <div v-show="!editID" class="btn btn-primary" @click="editMeasurement(measurement)">
+          <font-awesome-icon icon="pen" size="lg" @click="editMeasurement(measurement)" />
+        </div>
+        <div v-show="!editID" class="btn btn-danger" @click="deleteMeasurement(measurement)">
+          <font-awesome-icon icon="trash-alt" size="lg" @click="deleteMeasurement(measurement)" />
+        </div>
 
-      <MeasurementsItems></MeasurementsItems>
-    </table>
-  </div>
+        <div
+          v-show="editID == measurement.ID"
+          class="btn btn-success"
+          @click="saveEditMeasurement(measurement)"
+        >
+          <font-awesome-icon icon="check" size="lg" />
+        </div>
+        <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
+          <font-awesome-icon icon="times" size="lg" />
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </template>
 
 <script>
@@ -29,15 +84,13 @@ import moment from "moment";
 import Datepicker from "vue2-datepicker";
 import { required, minLength, between } from "vuelidate/lib/validators";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-
-import MeasurementsItems from "./MeasurementsItems.vue";
 export default {
-  name: "Measurements",
+  name: "MeasurementsItems",
   props: {},
   data() {
     return { editID: false };
   },
-  components: { Datepicker, MeasurementsItems },
+  components: { Datepicker },
   methods: {
     ...mapMutations([
       "updateMeasurementV",
@@ -87,7 +140,7 @@ export default {
       axios
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
-          //   console.log(response.data);
+          // console.log(response.data);
           //   self.$set(this, "measurements", response.data);
           if (response.data.error) {
             self.fillMeasurements({});

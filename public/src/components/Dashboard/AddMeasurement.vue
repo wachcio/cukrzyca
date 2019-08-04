@@ -108,7 +108,7 @@ export default {
         .get("/measurementsUser/" + this.user.ID)
         .then(response => {
           console.log(response.data);
-          self.$set(this, "measurements", response.data);
+          // self.$set(this, "measurements", response.data);
           if (response.data.error) {
             self.fillMeasurements({});
           } else self.fillMeasurements(response.data);
