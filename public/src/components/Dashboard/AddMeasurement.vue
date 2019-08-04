@@ -15,15 +15,32 @@
         placeholder="dawka insuliny"
         v-model="formAdd.insulin_dose"
       />
-      <input
+      <!-- <input
         type="number"
         class="form-control"
         :class="{'alert alert-danger':$v.formAdd.hour_of_measurement.$dirty && $v.formAdd.hour_of_measurement.$invalid}"
         placeholder="godzina odczytu"
         v-model="formAdd.hour_of_measurement"
         @input="$v.formAdd.hour_of_measurement.$touch()"
-      />
-      <Datepicker v-model="formAdd.date_of_measurement" format="YYYY-MM-DD" :lang="lang"></Datepicker>
+      />-->
+      <Datepicker
+        type="time"
+        value-type="format"
+        class="form-control"
+        :class="{'alert alert-danger':$v.formAdd.hour_of_measurement.$dirty && $v.formAdd.hour_of_measurement.$invalid}"
+        placeholder="godzina odczytu"
+        v-model="formAdd.hour_of_measurement"
+        format="H"
+        :time-picker-options="dateTimePicerOptions.timePickerOptions"
+        @input="$v.formAdd.hour_of_measurement.$touch()"
+      >
+        <slot name="header">Wybierz godzinę</slot>
+      </Datepicker>
+      <Datepicker
+        v-model="formAdd.date_of_measurement"
+        value-type="format"
+        :lang="dateTimePicerOptions.lang"
+      ></Datepicker>
       <button
         class="btn btn-primary btn__saveMeasurement"
         :disabled="$v.$invalid"
@@ -122,7 +139,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["measurements", "user", "lang"])
+    ...mapState(["measurements", "user", "dateTimePicerOptions"])
   },
   created() {
     this.formAdd.date_of_measurement = moment().format("YYYY-MM-DD");
@@ -144,6 +161,8 @@ form {
 .form-control,
 .mx-datepicker {
   width: 100% !important;
+  padding: 0;
+  margin: 0;
 }
 .btn__saveMeasurement {
   margin-top: 20px;

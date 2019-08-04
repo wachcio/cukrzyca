@@ -10,31 +10,38 @@ export default new Vuex.Store({
          online: false
       },
       measurements: "",
-      lang: {
-         days: ["Nie", "Pon", "Wto", "Śro", "Czw", "Pią", "Sob"],
-         months: [
-            "Sty",
-            "Lut",
-            "Mar",
-            "Kwi",
-            "Maj",
-            "Cze",
-            "Lip",
-            "Sie",
-            "Wrz",
-            "Paź",
-            "Lis",
-            "Gru"
-         ],
-         pickers: [
-            "następne 7 dni",
-            "następne 30 dni",
-            "wcześniejsze 7 dni",
-            "wcześniejsze 7 dni"
-         ],
-         placeholder: {
-            date: "Wybierz datę",
-            dateRange: "Wybierz przedział dat"
+      dateTimePicerOptions: {
+         lang: {
+            days: ["Nie", "Pon", "Wto", "Śro", "Czw", "Pią", "Sob"],
+            months: [
+               "Sty",
+               "Lut",
+               "Mar",
+               "Kwi",
+               "Maj",
+               "Cze",
+               "Lip",
+               "Sie",
+               "Wrz",
+               "Paź",
+               "Lis",
+               "Gru"
+            ],
+            pickers: [
+               "następne 7 dni",
+               "następne 30 dni",
+               "wcześniejsze 7 dni",
+               "wcześniejsze 7 dni"
+            ],
+            placeholder: {
+               date: "Wybierz datę",
+               dateRange: "Wybierz przedział dat"
+            }
+         },
+         timePickerOptions: {
+            start: "1:00",
+            step: "1:00",
+            end: "24:00"
          }
       }
    },
