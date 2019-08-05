@@ -12,7 +12,8 @@
           <th scope="col">Login</th>
           <th scope="col">Hasło</th>
           <th scope="col">Admin</th>
-          <th scope="col">Data narodzin</th>
+          <th scope="col">Narodziny dziecka</th>
+          <th scope="col"></th>
         </tr>
       </thead>
 

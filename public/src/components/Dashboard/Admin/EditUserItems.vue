@@ -46,20 +46,15 @@
           @change="updateUser($event, 'is_admin', user.ID)"
           type="number"
         />
-        <span v-if="editID != user.ID">{{user.is_admin}}</span>
+        <input :value="user.is_admin" type="checkbox" disabled="true" />
+        <!-- <span v-if="editID != user.ID">{{user.is_admin}}</span> -->
       </td>
       <td>
-        <!-- <input
-                v-if="editID == user.ID"
-                :value="user.date_of_user"
-                @change="updateUser($event, 'date_of_user', user.ID)"
-                type="text"
-        />-->
         <Datepicker
           v-if="editID == user.ID"
           :value="user.date_of_birth_child"
           format="YYYY-MM-DD"
-          lang="en"
+          :lang="dateTimePicerOptions.lang"
           value-type="format"
           @change="updateUser($event, 'date_of_birth_child', user.ID)"
         ></Datepicker>
@@ -230,7 +225,7 @@ export default {
       //   });
     }
   },
-  computed: {},
+  computed: { ...mapState(["measurements", "user", "dateTimePicerOptions"]) },
   created() {
     this.getAllUsers();
   },
