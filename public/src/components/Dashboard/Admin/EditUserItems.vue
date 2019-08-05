@@ -42,11 +42,12 @@
       <td>
         <input
           v-if="editID == user.ID"
-          :value="user.is_admin"
+          :checked="user.is_admin"
           @change="updateUser($event, 'is_admin', user.ID)"
-          type="number"
+          type="checkbox"
+          :disabled="editID != user.ID"
         />
-        <input :value="user.is_admin" type="checkbox" disabled="true" />
+        <input v-if=" editID != user.ID" type="checkbox" :disabled="true" :checked="user.is_admin" />
         <!-- <span v-if="editID != user.ID">{{user.is_admin}}</span> -->
       </td>
       <td>
@@ -163,6 +164,30 @@ export default {
           router.push({ name: "adminEditUser" });
         });
     },
+    deleteUser: function(m) {
+      let self = this;
+      if (
+        confirm(
+          "Czy jesteś pewien, że chcesz usunąć użytkownika " + m.login + "?"
+        )
+      ) {
+        axios
+          .delete(`/user/${m.ID}`)
+
+          .then(response => {
+            // console.log(response.data);
+            //   self.$set(this, "Users", response.data);
+            // if (response.data.error) {
+            //   self.dbUsers = {};
+            // } else self.dbUsers = response.data;
+            this.getAllUsers();
+          })
+          .catch(errors => {
+            console.log(errors);
+            router.push({ name: "adminEditUser" });
+          });
+      }
+    },
 
     customFormat: function(date) {
       return moment(date).format("YYYY-MM-DD");
@@ -173,35 +198,35 @@ export default {
       // Object.assign(this.edit, m);
       this.editID = m.ID;
     },
-    deleteUser: function(m) {
-      // if (
-      //   confirm(
-      //     "Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " +
-      //       m.sugar_level +
-      //       "\nDawka insuliny: " +
-      //       m.insulin_dose +
-      //       "\nGodzina pomiaru: " +
-      //       m.hour_of_User +
-      //       "\nData pomiaru: " +
-      //       m.date_of_User +
-      //       "?"
-      //   )
-      // ) {
-      //   axios
-      //     .delete("/UserDelete/", { params: { ID: m.ID } })
-      //     .then(response => {
-      //       this.getAllUsers();
-      //       console.log(response);
-      //     })
-      //     .then(response => {
-      //       this.currentPage = 2;
-      //     })
-      //     .catch(errors => {
-      //       console.log(errors);
-      //       router.push("/");
-      //     });
-      // }
-    },
+    // deleteUser: function(m) {
+    // if (
+    //   confirm(
+    //     "Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " +
+    //       m.sugar_level +
+    //       "\nDawka insuliny: " +
+    //       m.insulin_dose +
+    //       "\nGodzina pomiaru: " +
+    //       m.hour_of_User +
+    //       "\nData pomiaru: " +
+    //       m.date_of_User +
+    //       "?"
+    //   )
+    // ) {
+    //   axios
+    //     .delete("/UserDelete/", { params: { ID: m.ID } })
+    //     .then(response => {
+    //       this.getAllUsers();
+    //       console.log(response);
+    //     })
+    //     .then(response => {
+    //       this.currentPage = 2;
+    //     })
+    //     .catch(errors => {
+    //       console.log(errors);
+    //       router.push("/");
+    //     });
+    // }
+    // },
 
     saveEditUser: function(m) {
       // axios

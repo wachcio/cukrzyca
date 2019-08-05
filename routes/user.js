@@ -10,20 +10,6 @@ var mysql = require("mysql");
 var _ = require("lodash");
 var moment = require("moment");
 const sha256 = require("sha256");
-// let users = [
-//    {
-//       id: 1,
-//       name: "wachcio",
-//       email: "wachcio",
-//       password: "1234"
-//    },
-//    {
-//       id: 2,
-//       name: "Emma",
-//       email: "emma@email.com",
-//       password: "password2"
-//    }
-// ];
 
 const getUsers = () => {
    var query =
@@ -157,6 +143,37 @@ router.get("/:id/:report?/:date?", function(req, res, next) {
          // });
       });
    }
+   connection.end();
+});
+router.delete("/:id", function(req, res, next) {
+   // console.log("id", req.params.id);
+
+   let id = req.params.id;
+
+   if (!_.isNumber(Number(id))) res.json(badParameters("ID is not correct"));
+
+   var query = "DELETE FROM `users` WHERE `users`.`ID` = " + id;
+   console.log(query);
+   var connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      timezone: process.env.TZ,
+      multipleStatements: true,
+      charset: "utf8_general_ci"
+      // debug: true
+   });
+   connection.connect();
+   connection.query(query, function(err, rows, fields) {
+      if (err) {
+         // console.log(err);
+         res.json(badParameters(err.code));
+         next(err);
+      }
+
+      res.json(rows);
+   });
    connection.end();
 });
 
