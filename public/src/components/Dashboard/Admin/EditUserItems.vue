@@ -4,7 +4,7 @@
     <tr v-for="(user, index) in dbUsers" :key="user.ID">
       <!-- <th scope="row" @dblclick.stop="editUser(user)">{{index+1}}</th> -->
       <th scope="row">{{index+1}}</th>
-      <td>{{user.ID}}</td>
+      <!-- <td>{{user.ID}}</td> -->
       <td>
         <input
           v-if="editID == user.ID"

@@ -10,7 +10,7 @@
       <router-link class="btn btn-secondary" :to="{name:'report'}" exact>Raport</router-link>
       <router-link
         class="btn btn-secondary"
-        :to="{name:'adminAddUser'}"
+        :to="{name:'adminEditUser'}"
         exact
         v-if="user.is_admin"
       >Admin</router-link>

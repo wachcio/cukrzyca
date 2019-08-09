@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h3>Edytuj</h3>
+    <h3>Edytuj użytkowników</h3>
 
     <table class="table table-striped table-hover" id="userTable">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">ID</th>
+          <!-- <th scope="col">ID</th> -->
           <th scope="col">Imię</th>
           <th scope="col">Nazwisko</th>
           <th scope="col">Login</th>
