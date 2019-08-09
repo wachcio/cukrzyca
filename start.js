@@ -16,8 +16,8 @@ var sassMiddleware = require("node-sass-middleware");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var userRouter = require("./routes/user");
-var userAddRouter = require("./routes/userAdd");
-var userUpdateRouter = require("./routes/userUpdate");
+// var userAddRouter = require("./routes/userAdd");
+// var userUpdateRouter = require("./routes/userUpdate");
 var measurementAddRouter = require("./routes/measurementAdd");
 var measurementsUserRouter = require("./routes/measurementsUser");
 var measurementsAVGUserRouter = require("./routes/measurementsAVGUser");
@@ -29,7 +29,7 @@ var reportGeneratorRouter = require("./routes/reportGenerator");
 var loginRouter = require("./routes/login");
 var logoutRouter = require("./routes/logout");
 var adminRouter = require("./routes/admin");
-var userPanelRouter = require("./routes/userPanel");
+// var userPanelRouter = require("./routes/userPanel");
 
 var app = express();
 
@@ -65,8 +65,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/user", userRouter);
-app.use("/userAdd", userAddRouter);
-app.use("/userUpdate", userUpdateRouter);
+// app.use("/userAdd", userAddRouter);
+// app.use("/userUpdate", userUpdateRouter);
 app.use("/measurementAdd", measurementAddRouter);
 app.use("/measurementsUser", measurementsUserRouter);
 app.use("/measurementsAVGUser", measurementsAVGUserRouter);
@@ -77,7 +77,7 @@ app.use("/reportGenerator", reportGeneratorRouter);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/admin", adminRouter);
-app.use("/userPanel", userPanelRouter);
+// app.use("/userPanel", userPanelRouter);
 
 const getUsers = () => {
    var query = "SELECT * FROM `users`";

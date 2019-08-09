@@ -11,9 +11,10 @@ var _ = require("lodash");
 var moment = require("moment");
 const sha256 = require("sha256");
 
-const getUsers = () => {
-   var query =
-      "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
+const getUsers = cal => {
+   var query = "SELECT * FROM `users`";
+   // var query =
+   //    "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
    //  var query =
    // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
 
@@ -31,18 +32,12 @@ const getUsers = () => {
    connection.query(query, function(err, rows, fields) {
       if (err) throw err;
       // console.log(rows[0].password == sha256("123"));
+      global.app.users = Array.from(rows);
+      global.appUsers = Array.from(rows);
 
-      return rows;
+      return cal;
    });
    connection.end();
-};
-
-const authMiddleware = (req, res, next) => {
-   if (!req.isAuthenticated()) {
-      res.status(401).send("You are not authenticated");
-   } else {
-      return next();
-   }
 };
 
 const badParameters = err => {
@@ -63,8 +58,8 @@ const weekOfPregnancy = (date, dateFrom = new Date().getTime()) => {
    return Math.floor(40 - weeks);
 };
 
-router.get("/", authMiddleware, function(req, res, next) {
-   // router.get("/", function(req, res, next) {
+// router.get("/", authMiddleware, function(req, res, next) {
+router.get("/", function(req, res, next) {
    let user = global.app.users.find(user => {
       // console.log(req.session.passport.user);
 
@@ -166,6 +161,147 @@ router.delete("/:id", function(req, res, next) {
    });
    connection.connect();
    connection.query(query, function(err, rows, fields) {
+      if (err) {
+         // console.log(err);
+         res.json(badParameters(err.code));
+         next(err);
+      }
+
+      res.json(rows);
+   });
+   connection.end();
+});
+router.patch("/:id", function(req, res, next) {
+   let id = req.params.id;
+   // console.log(req.body);
+   let first_name = _.trim(req.body.first_name);
+   let last_name = _.trim(req.body.last_name);
+   let password = String(req.body.password);
+   let login = req.body.login;
+   let is_admin = req.body.is_admin;
+   let name = req.body.first_name + " " + req.body.last_name;
+   let date_of_birth_child = req.body.date_of_birth_child;
+
+   var query =
+      "UPDATE `users` SET `first_name` = '" +
+      first_name +
+      "', `last_name` = '" +
+      last_name +
+      "', `name` = '" +
+      name +
+      "', `login` = '" +
+      login +
+      "', `password` = '" +
+      password +
+      "', `is_admin` = '" +
+      is_admin +
+      "', `date_of_birth_child` = '" +
+      date_of_birth_child +
+      "' WHERE `users`.`ID` = " +
+      id;
+   console.log(query);
+
+   var connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      timezone: process.env.TZ,
+      multipleStatements: true,
+      debug: true,
+      charset: "utf8_general_ci"
+   });
+
+   // console.log(checkParameters(req.query));
+
+   // if (
+   //    checkParameters({
+   //       first_name,
+   //       last_name,
+   //       password,
+   //       date_of_birth_child
+   //    }) == false
+   // )
+   //    return res.json(badParameters("Bad parameters"));
+
+   connection.connect();
+   connection.query(query, function(err, rows, fields) {
+      // if (err == "ER_DUP_ENTRY") res.json(badParameters("Duplicate key"));
+      if (err) {
+         console.log("err", err);
+         res.json(badParameters(err.code));
+         next(err);
+      }
+      res.json(getUsers(rows));
+   });
+   connection.end();
+});
+
+router.post("/", function(req, res, next) {
+   // let id = req.params.ID;
+   let first_name = _.trim(req.body.first_name);
+   let last_name = _.trim(req.body.last_name);
+   let password = String(req.body.password);
+   let login = req.body.login;
+   let is_admin = req.body.is_admin;
+   let name = req.body.first_name + " " + req.body.last_name;
+   let date_of_birth_child = req.body.date_of_birth_child;
+   // console.log(req);
+   // let first_name = _.trim(req.query.first_name);
+   // let last_name = _.trim(req.query.last_name);
+   // let password = String(req.query.password);
+   // let login = req.query.login;
+   // let is_admin = req.query.is_admin;
+   // let name = req.query.first_name + " " + req.query.last_name;
+   // let date_of_birth_child = req.query.date_of_birth_child;
+   // console.log(req.query);
+
+   // let date_added = req.query.date_added;
+
+   // var query = "SELECT * FROM `users`";
+   var query =
+      "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `name`, `login`, `password`, `is_admin`, `date_of_birth_child`, `date_added`) VALUES (NULL, '" +
+      first_name +
+      "', '" +
+      last_name +
+      "', '" +
+      name +
+      "', '" +
+      login +
+      "', '" +
+      sha256(password) +
+      "', '" +
+      is_admin +
+      "', '" +
+      date_of_birth_child +
+      "', CURRENT_TIMESTAMP);";
+   console.log(query);
+
+   var connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      timezone: process.env.TZ,
+      multipleStatements: true,
+      charset: "utf8_general_ci"
+   });
+
+   // console.log(checkParameters(req.query));
+
+   // if (
+   //    checkParameters({
+   //       first_name,
+   //       last_name,
+   //       password,
+   //       date_of_birth_child
+   //    }) == false
+   // )
+   //    return res.json(badParameters("Bad parameters"));
+
+   connection.connect();
+   connection.query(query, function(err, rows, fields) {
+      if (err == "ER_DUP_ENTRY") res.json(badParameters("Duplicate key"));
       if (err) {
          // console.log(err);
          res.json(badParameters(err.code));

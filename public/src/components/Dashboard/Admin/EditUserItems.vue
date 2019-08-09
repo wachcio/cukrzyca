@@ -216,7 +216,7 @@ export default {
 
     saveEditUser: function(m) {
       axios
-        .patch("/userUpdate/" + m.ID, this.userEdit)
+        .patch("/user/" + m.ID, this.userEdit)
         // .patch("/userUpdate/", {
         //   ID: m.ID,
         //   sugar_level: m.sugar_level,
