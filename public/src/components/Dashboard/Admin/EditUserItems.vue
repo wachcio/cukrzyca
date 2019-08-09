@@ -1,12 +1,14 @@
 <template>
   <tbody>
-    <tr v-for="(user, index) in dbUsers" :key="user.ID" @dblclick="editUser(user)">
-      <th scope="row" @dblclick="editUser(user)">{{index+1}}</th>
+    <!-- <tr v-for="(user, index) in dbUsers" :key="user.ID" @dblclick="editUser(user)"> -->
+    <tr v-for="(user, index) in dbUsers" :key="user.ID">
+      <!-- <th scope="row" @dblclick.stop="editUser(user)">{{index+1}}</th> -->
+      <th scope="row">{{index+1}}</th>
       <td>{{user.ID}}</td>
       <td>
         <input
           v-if="editID == user.ID"
-          :value="user.first_name"
+          :value="userEdit.first_name"
           @change="updateUser($event, 'first_name', user.ID)"
           type="text"
         />
@@ -15,7 +17,7 @@
       <td>
         <input
           v-if="editID == user.ID"
-          :value="user.last_name"
+          :value="userEdit.last_name"
           @change="updateUser($event, 'last_name', user.ID)"
           type="text"
         />
@@ -24,7 +26,7 @@
       <td>
         <input
           v-if="editID == user.ID"
-          :value="user.login"
+          :value="userEdit.login"
           @change="updateUser($event, 'login', user.ID)"
           type="text"
         />
@@ -35,14 +37,14 @@
           v-if="editID == user.ID"
           value
           @change="updateUser($event, 'password', user.ID)"
-          type="text"
+          type="password"
         />
         <span v-if="editID != user.ID">{{ }}</span>
       </td>
       <td>
         <input
           v-if="editID == user.ID"
-          :checked="user.is_admin"
+          :checked="userEdit.is_admin"
           @change="updateUser($event, 'is_admin', user.ID)"
           type="checkbox"
           :disabled="editID != user.ID"
@@ -53,7 +55,7 @@
       <td>
         <Datepicker
           v-if="editID == user.ID"
-          :value="user.date_of_birth_child"
+          :value="userEdit.date_of_birth_child"
           format="YYYY-MM-DD"
           :lang="dateTimePicerOptions.lang"
           value-type="format"
@@ -73,7 +75,7 @@
           <font-awesome-icon icon="trash-alt" size="lg" />
         </div>
 
-        <div v-show="editID == user.ID" class="btn btn-success" @click="saveEditUser(user)">
+        <div v-show="editID == user.ID" class="btn btn-success" @click.prevent="saveEditUser(user)">
           <font-awesome-icon icon="check" size="lg" />
         </div>
         <!-- <div v-show="false" class="btn btn-danger" @click="cleanEditObject()">
@@ -88,6 +90,8 @@
 import axios from "axios";
 import moment from "moment";
 import Datepicker from "vue2-datepicker";
+import _ from "lodash";
+import sha256 from "sha256";
 import { required, minLength, between } from "vuelidate/lib/validators";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
@@ -98,13 +102,15 @@ export default {
     return {
       editID: false,
       dbUsers: [],
-      usersEdit: {
+      userEdit: {
+        ID: null,
         first_name: null,
         last_name: null,
         name: null,
         login: null,
         is_admin: null,
         date_of_birth_child: null,
+        date_added: null,
         password: null
       }
     };
@@ -114,20 +120,17 @@ export default {
     ...mapMutations(["updateUserV", "fillUsersV", "fillUserDataV", "logoutV"]),
     updateUser(e, fieldName, ID) {
       // updateUser($event, "date_of_User", User.ID);
-      // console.log(fieldName, e);
-      // if (fieldName == "date_of_User") {
-      //   this.updateUserV({
-      //     value: e,
-      //     fieldName,
-      //     ID
-      //   });
-      // } else {
-      //   this.updateUserV({
-      //     value: e.target.value,
-      //     fieldName,
-      //     ID
-      //   });
-      // }
+      // console.log(fielNam);
+
+      console.log("e", e);
+
+      if (fieldName == "password")
+        this.userEdit[fieldName] = sha256(e.target.value);
+      else if (fieldName == "date_of_birth_child") this.userEdit[fieldName] = e;
+      else if (fieldName == "is_admin") {
+        if (e.target.checked == true) this.userEdit[fieldName] = 1;
+        if (e.target.checked == false) this.userEdit[fieldName] = 0;
+      } else this.userEdit[fieldName] = e.target.value;
     },
     fillUsers(value) {
       // this.fillUsersV({
@@ -196,58 +199,42 @@ export default {
     editUser: function(m) {
       // this.edit = m;
       // Object.assign(this.edit, m);
+      // console.log("edit user", m);
+
       this.editID = m.ID;
+      this.userEdit = _.clone(m);
+      // console.log("edit user data", this.userEdit);
+
+      // this.editUser.ID = m.ID;
+      // this.editUser.first_name = m.first_name;
+      // this.editUser.last_name = m.last_name;
+      // this.editUser.login = m.login;
+      // this.editUser.password = m.password;
+      // this.editUser.is_admin = m.is_admin;
+      // this.editUser.date_of_birth_child = m.date_of_birth_child;
     },
-    // deleteUser: function(m) {
-    // if (
-    //   confirm(
-    //     "Czy jesteś pewien, że chcesz usunąć ten odczyt \nPoziom cukru: " +
-    //       m.sugar_level +
-    //       "\nDawka insuliny: " +
-    //       m.insulin_dose +
-    //       "\nGodzina pomiaru: " +
-    //       m.hour_of_User +
-    //       "\nData pomiaru: " +
-    //       m.date_of_User +
-    //       "?"
-    //   )
-    // ) {
-    //   axios
-    //     .delete("/UserDelete/", { params: { ID: m.ID } })
-    //     .then(response => {
-    //       this.getAllUsers();
-    //       console.log(response);
-    //     })
-    //     .then(response => {
-    //       this.currentPage = 2;
-    //     })
-    //     .catch(errors => {
-    //       console.log(errors);
-    //       router.push("/");
-    //     });
-    // }
-    // },
 
     saveEditUser: function(m) {
-      // axios
-      //   .patch("/UserUpdate/", {
-      //     ID: m.ID,
-      //     sugar_level: m.sugar_level,
-      //     insulin_dose: m.insulin_dose,
-      //     date_of_User: m.date_of_User,
-      //     hour_of_User: m.hour_of_User
-      //   })
-      //   .then(response => {
-      //     this.getAllUsers();
-      //     console.log(response);
-      //   })
-      //   .then(response => {
-      //     this.cleanEditObject();
-      //   })
-      //   .catch(errors => {
-      //     console.log(errors);
-      //     router.push("/");
-      //   });
+      axios
+        .patch("/userUpdate/" + m.ID, this.userEdit)
+        // .patch("/userUpdate/", {
+        //   ID: m.ID,
+        //   sugar_level: m.sugar_level,
+        //   insulin_dose: m.insulin_dose,
+        //   date_of_User: m.date_of_User,
+        //   hour_of_User: m.hour_of_User
+        // })
+        .then(response => {
+          this.getAllUsers();
+          console.log(response);
+        })
+        .then(response => {
+          this.cleanEditObject();
+        })
+        .catch(errors => {
+          console.log(errors);
+          router.push("/");
+        });
     }
   },
   computed: { ...mapState(["measurements", "user", "dateTimePicerOptions"]) },

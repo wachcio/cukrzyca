@@ -101,8 +101,8 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
    let user = global.app.users.find(user => {
-      console.log(user.ID);
-      console.log(id);
+      // console.log(user.ID);
+      // console.log(id);
 
       return user.ID === id;
    });
