@@ -38,6 +38,34 @@ const badParameters = err => {
       error: err
    };
 };
+const getUsers = r => {
+   var query = "SELECT * FROM `users`";
+   // var query =
+   //    "SELECT `ID`, `first_name`, `last_name`, `name`, `date_of_birth_child`, `date_added` FROM `users`";
+   //  var query =
+   // "INSERT INTO `users` (`ID`, `first_name`, `last_name`, `date_of_birth_child`, `date_added`) VALUES (NULL, 'ęóśąłżćńź', 'aa', '2019-07-19', CURRENT_TIMESTAMP);";
+
+   var connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      timezone: process.env.TZ,
+      multipleStatements: true,
+      charset: "utf8_general_ci"
+      // debug: true
+   });
+   connection.connect();
+   connection.query(query, function(err, rows, fields) {
+      if (err) throw err;
+      // console.log(rows[0].password == sha256("123"));
+      global.app.users = Array.from(rows);
+      global.appUsers = Array.from(rows);
+
+      return r;
+   });
+   connection.end();
+};
 
 // router.all("*", (req, res, next) => {
 //    if (!req.session.admin) {
@@ -108,8 +136,7 @@ router.patch("/:id", function(req, res, next) {
          res.json(badParameters(err.code));
          next(err);
       }
-
-      res.json(rows);
+      res.json(getUsers(rows));
    });
    connection.end();
 });
