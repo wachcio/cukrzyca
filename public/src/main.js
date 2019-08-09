@@ -15,7 +15,8 @@ import {
    faTrashAlt,
    faCheck,
    faPen,
-   faTimes
+   faTimes,
+   faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -23,6 +24,7 @@ library.add(faTrashAlt);
 library.add(faTimes);
 library.add(faCheck);
 library.add(faPen);
+library.add(faPlus);
 Vue.use(VueSession);
 Vue.use(Vuelidate);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
