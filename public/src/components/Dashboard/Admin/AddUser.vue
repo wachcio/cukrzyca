@@ -93,19 +93,25 @@ export default {
   validations: {
     formAdd: {
       first_name: {
-        required
+        required,
+        minLength: minLength(4)
       },
       last_name: {
-        required
+        required,
+        minLength: minLength(4)
       },
       login: {
-        required
+        required,
+        minLength: minLength(4)
       },
       password: {
-        required
+        required,
+        minLength: minLength(6)
       },
       passwordRepeat: {
-        required
+        required,
+        minLength: minLength(6)
+        // sameAsPassword: sameAs("password")
       },
       is_admin: {
         required
