@@ -1,6 +1,9 @@
 <template>
   <tbody>
     <!-- <tr v-for="(user, index) in dbUsers" :key="user.ID" @dblclick="editUser(user)"> -->
+    <!-- <div>
+      <img src="../../../assets/loading.gif" alt />
+    </div>-->
     <tr v-for="(user, index) in dbUsers" :key="user.ID">
       <!-- <th scope="row" @dblclick.stop="editUser(user)">{{index+1}}</th> -->
       <th scope="row">{{index+1}}</th>
