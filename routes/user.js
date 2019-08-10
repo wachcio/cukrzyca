@@ -308,7 +308,7 @@ router.post("/", function(req, res, next) {
          next(err);
       }
 
-      res.json(rows);
+      res.json(getUsers(rows));
    });
    connection.end();
 });

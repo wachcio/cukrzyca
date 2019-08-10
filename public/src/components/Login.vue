@@ -21,6 +21,7 @@ import axios from "axios";
 import router from "../router";
 
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import sha256 from "sha256";
 
 export default {
   name: "Login",
